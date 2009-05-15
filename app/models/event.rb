@@ -3,7 +3,7 @@ class Event < ActiveRecord::Base
   validates_presence_of :date, :message => 'A date must be specified'
   validate :ensure_start_time_and_end_time_are_sane
 
-  named_scope :for_date, lambda {|date| { :conditions => [ 'date = ?', date ] } }
+  named_scope :for_date, lambda {|date| { :conditions => [ 'date = ?', date ], :order => 'start_time, name' } }
   named_scope :for_month, lambda {|month, year| { :conditions => [ 'date BETWEEN ? AND ?', Date.civil(year,month,1), Date.civil(year,month,-1) ] } }
 
   attr_accessor :timezone, :start_time, :end_time

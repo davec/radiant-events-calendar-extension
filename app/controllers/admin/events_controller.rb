@@ -4,6 +4,12 @@ class Admin::EventsController < Admin::ResourceController
 
   protected
 
+    def load_models
+      # Order the events by date, and exclude any in the past
+      self.models = model_class.all(:order => 'date, start_time, name',
+                                    :conditions => [ 'date >= ?', Date.today ])
+    end
+
     def adjust_times
       start_time = parse_time(params[:event][:'start_time(5i)'])
       end_time = parse_time(params[:event][:'end_time(5i)'])
