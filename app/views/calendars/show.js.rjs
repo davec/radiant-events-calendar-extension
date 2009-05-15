@@ -1,0 +1,5 @@
+if @calendar
+  page.replace 'events-calendar', @calendar
+else
+  page.alert 'Calendar generation failed'
+end

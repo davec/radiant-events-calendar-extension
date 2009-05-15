@@ -1,0 +1,7 @@
+- include_stylesheet 'admin/events_calendar/events'
+- include_stylesheet calendar_date_select_stylesheets
+- calendar_date_select_javascripts.each{|f| include_javascript f}
+
+%h1 New Event
+
+= render :partial => 'form'

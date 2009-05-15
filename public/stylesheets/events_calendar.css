@@ -1,0 +1,96 @@
+.calendar {
+  border-collapse: collapse;
+  font-size: 10px;
+}
+
+.calendar th, .calendar td {
+  text-align: center;
+}
+
+.calendar th.monthName {
+  font-size: 120%;
+  font-weight: normal;
+}
+.calendar th .prevMonthName {
+  margin-left: 0.5em;
+  text-align: left;
+}
+.calendar th .nextMonthName {
+  margin-right: 0.5em;
+  text-align: right;
+}
+
+.calendar tr.dayName th {
+  background-color: #555;
+  color: white;
+  font-size: 90%;
+  padding: 0.4em;
+}
+
+.calendar td {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  padding: 0.5em;
+}
+.calendar td.today {
+  background-color: #99f;
+}
+.calendar td.weekendDay {
+  background-color: #ddd;
+  border: 1px solid #fff;
+}
+.calendar td.otherMonth {
+  color: #999;
+}
+
+.calendar a {
+  text-decoration: none;
+  border: none;
+}
+.calendar td.eventDay a,
+.calendar td.eventDay a:visited,
+.calendar td.eventDay a:hover {
+  color: #d10a21;
+  font-weight: bold;
+}
+
+.tooltip {
+  background-color: #99f;
+  border: solid 1px #333;
+  font: normal 10px sans-serif;
+  padding: 4px;
+  width: 200px;
+  z-index: 100;
+  position: absolute;
+  top: 0;
+  left: 0;
+  visibility: hidden;
+  opacity: 0.95;
+  filter: alpha(opacity=95);
+}
+dl.events {
+}
+dl.events dt {
+  font: bold 120% sans-serif;
+}
+dl.events dd {
+  font: bold 100% sans-serif;
+  margin-left: 1em;
+}
+dl.events dd.time {
+  font-weight: normal;
+}
+dl.events dd.location {
+  font-size: 110%;
+}
+dl.events dd.description {
+  font-weight: normal;
+  margin-bottom: 1em;
+  margin-top: 1em;
+}
+dl.events .footer {
+  color: #333;
+  font-size: 90%;
+  margin: 2em 1em 0;
+  text-align: center;
+}

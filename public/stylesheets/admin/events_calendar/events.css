@@ -1,0 +1,75 @@
+#content #events.index {
+  border: none;
+  border-collapse: collapse;
+}
+
+#content #events.index .node .event {
+  font-size: 115%;
+  font-weight: bold;
+}
+
+#content #events.index .node .event a,
+#content #events.index .node .event a:visited {
+  color: black;
+  text-decoration: none;
+}
+
+#content #events.index .node .event a:hover,
+#content #events.index .node .event a:visited:hover {
+  color: blue;
+  text-decoration: underline;
+}
+
+#content #event_form_area #event_name.textbox,
+#content #event_form_area #event_location.textbox,
+#content #event_form_area #event_description.textbox {
+  font-size: 125%;
+  width: 100%;
+}
+#content #event_form_area #event_description.textbox {
+  height: 10em;
+}
+
+#content #event_form_area .schedule .date,
+#content #event_form_area .schedule .time,
+#content #event_form_area .schedule .timezone {
+  float: left;
+}
+#content #event_form_area .schedule .time {
+  margin-left: 2em;
+  width: 8em;
+}
+#content #event_form_area .schedule .timezone {
+  margin-left: 2em;
+}
+
+#content #event_form_area {
+  width: 48em;
+}
+
+#content #event_form_area .note {
+  font-weight: normal;
+  font-size: 90%;
+}
+
+#content #event_form_area .row {
+  clear: both;
+  height: 1em;
+  margin: 1em 0;
+  width: 100%;
+}
+
+#content #event_form_area .title {
+  clear: both;
+  margin-top: 1em;
+}
+
+#content #event_form_area .calendar_date_select {
+  margin-bottom: 1em;
+}
+
+#content #events.index tr.inactive td.event a,
+#content #events.index tr.inactive td.event a:visited {
+  font-style: italic;
+  text-decoration: line-through;
+}

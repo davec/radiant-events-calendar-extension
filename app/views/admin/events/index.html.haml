@@ -1,0 +1,42 @@
+- include_stylesheet 'admin/events_calendar/events'
+
+%h1 Events
+
+%p
+  Click on an event name below to edit it, or click <code>Remove</code> to delete it.
+
+%table#events.index
+  %thead
+    %tr
+      %th.name
+        Name
+      %th.date
+        Date
+      %th.time
+        Time
+      -#%th.location
+        Location
+      %th.modify
+        Modify
+  %tbody
+    - if @events.empty?
+      %tr
+        %td.note{ :colspan => '5' }
+          No Events
+    - else
+      - @events.each do |event|
+        %tr.node.level-1
+          %td.event
+            = image('events_calendar/event')
+            = link_to(h(event.name), edit_admin_event_url(event))
+          %td.date
+            = h event.date
+          %td.time
+            = h event.time
+          -#%td.location
+            = h event.location
+          %td.remove
+            = link_to(image('remove', :alt => 'Remove event'), remove_admin_event_url(event), :method => :delete, :confirm => "Are you sure you want to delete #{event.name}")
+
+%p
+  = link_to(image('events_calendar/new-event', :alt => 'New Event'), new_admin_event_url)

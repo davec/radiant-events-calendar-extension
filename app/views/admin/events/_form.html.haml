@@ -1,0 +1,44 @@
+- form_for [:admin, @event] do |f|
+  .form-area
+    #event_form_area
+      %p.title
+        %label{:for => 'event_name'} Name
+        = f.text_field :name, :class => 'textbox', :maxlength => 255
+      %p.title
+        %label{:for => 'event_location'}
+          Location
+          %span.note (optional)
+        = f.text_field :location, :class => 'textbox', :maxlength => 255
+      .schedule
+        .date
+          %p.title
+            %label{:for => 'event_date'} Date
+            = calendar_date_select_tag 'event[date]', @event.date || Date.today, :time => false, :clear_button => false, :year_range => [0.years.ago, 5.years.from_now], :embedded => true
+        .time
+          %p.title
+            %label{:for => 'event_start_time'}
+              Start Time
+              %br
+              %span.note (optional)
+            = f.time_select :start_time, { :default => @event.start_time ? @event.start_time : nil, :time_separator => '', :minute_interval => 15, :include_blank => true, :simple_time_select => true }
+        .time
+          %p.title
+            %label{:for => 'event_end_time'}
+              End Time
+              %br
+              %span.note (optional)
+            = f.time_select :end_time, { :default => @event.end_time ? @event.end_time : nil, :time_separator => '', :minute_interval => 15, :include_blank => true, :simple_time_select => true }
+        .timezone
+          %p.title
+            %label{:for => 'event_timezone'} Timezone
+            = f.time_zone_select :timezone
+      %p.title
+        %label{:for => 'event_description'} Description
+        ~ f.text_area 'description', :class => 'textbox', :size => '60x10'
+  %span.clear &nbsp;
+  = javascript_tag "$('event_name').activate()"
+  %p.buttons
+    = save_model_button(@event)
+    = save_model_and_continue_editing_button(@event)
+    or
+    = link_to('Cancel', admin_events_url)
