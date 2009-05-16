@@ -52,7 +52,8 @@ module CalendarsHelper
 
           [ %Q{<a href="#{events_path(:year => this_month.year, :month => this_month.month, :day => d.mday)}">#{d.mday}</a>}, { :class => 'eventDay', :id => "day-#{d.jd}" } ]
         end
-      end
+        # HACK around a bug in RedCloth that inserts spurious p tags (the extra newlines seem to avoid the problem)
+      end.gsub(/(<\/?(table|thead|tbody|tfoot|tr|th|td)[^>]*?>)/, "\n"+'\1')
       block << events.join
       block << '</div>'
       block << %Q{<script type="text/javascript">makeToolTips();</script>}
