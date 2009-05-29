@@ -2,6 +2,7 @@ if (typeof Prototype == 'undefined')
   throw("events_calendar.js requires the prototype.js library");
 
 var ToolTips = $H();
+var ActiveToolTip = null;
 
 var ToolTip = Class.create({
   initialize: function(element, parent_element, offset_x, offset_y) {
@@ -12,35 +13,46 @@ var ToolTip = Class.create({
   },
 
   hide: function() {
-    this.element.style.visibility = 'hidden';
+    ActiveToolTip.style.visibility = 'hidden';
   },
 
   show: function() {
-    if ((this.element.style.top  == '' || this.element.style.top  == 0) &&
-        (this.element.style.left == '' || this.element.style.left == 0)) {
+    if ($('tooltip-data-'+this.element.id) == null) {
+      // Copy the contents of the tooltip to the active-tooltip div
+      ActiveToolTip.update(this.element.innerHTML);
+      ActiveToolTip.id = 'tooltip-data-'+this.element.id;
 
-      // need to fixate default size (MSIE problem)
-      this.element.style.width  = this.element.offsetWidth  + 'px';
-      this.element.style.height = this.element.offsetHeight + 'px';
-        
-      // Position the bottom right of the tooltip relative to the bottom
-      // left of the parent (i.e., the calendar cell) element.
-      // TODO: Adjust position to fit in viewport.
-      //var pos = this.parent.cumulativeOffset();
-      var pos = this.parent.positionedOffset();
-      var x = pos[0] - this.offset_x - this.element.getDimensions().width;
-      var y = pos[1] - this.offset_y - this.element.getDimensions().height + this.parent.getDimensions().height;
-        
-      this.element.style.top  = y + 'px';
-      this.element.style.left = x + 'px';
+      ActiveToolTip.style.width  = this.element.offsetWidth  + 'px';
+      ActiveToolTip.style.height = this.element.offsetHeight + 'px';
+
+      // Calculate the tooltip position
+      var viewport_offset = document.viewport.getScrollOffsets();
+      var parent_offset = this.parent.cumulativeOffset();
+      var y = Math.max(Math.abs(this.offset_y) + viewport_offset.top,
+                       parent_offset.top - this.offset_y - ActiveToolTip.getHeight() + this.parent.getHeight());
+      var x = parent_offset.left - this.offset_x - ActiveToolTip.getWidth();
+      // If the tooltip doesn't fit on the left, move it to the right
+      if (x < 0) {
+        x = parent_offset.left + this.offset_x + this.parent.getWidth();
+      }
+
+      // Set the tooltip position and make it visible
+      ActiveToolTip.style.top  = y + 'px';
+      ActiveToolTip.style.left = x + 'px';
     }
-    this.element.style.visibility = 'visible';
+    ActiveToolTip.style.visibility = 'visible';
   }
 });
 
 function makeToolTips() {
   ToolTips = $H();
-  $$('div.tooltip').each(function(e){
+
+  if (ActiveToolTip == null) {
+    new Insertion.Bottom(document.body, '<div id="active-tooltip" class="tooltip" style="visibility:hidden;"></div>');
+    ActiveToolTip = $('active-tooltip');
+  }
+
+  $$('div.calendar-data').each(function(e){
     var jd = e.id.replace(/\D+(\d+)/, '$1');
     calendar_cell = $('day-'+jd);
     ToolTips[jd] = new ToolTip(e.id, $('day-'+jd), 5, 5);
