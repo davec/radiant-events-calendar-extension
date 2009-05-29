@@ -98,9 +98,10 @@ dl.events dd.description {
   margin-bottom: 1em;
   margin-top: 1em;
 }
-dl.events .footer {
-  color: #333;
+.tooltip .footer {
+  color: #c00;
   font-size: 90%;
+  font-weight: bold;
   margin: 2em 1em 0;
   text-align: center;
 }
