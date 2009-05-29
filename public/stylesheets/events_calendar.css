@@ -27,6 +27,10 @@
   padding: 0.4em;
 }
 
+.calendar tr.dayName th abbr {
+  border: none;
+}
+
 .calendar td {
   background-color: #fff;
   border: 1px solid #ddd;
