@@ -9,7 +9,7 @@ describe 'EventsCalendar' do
       tag = %{<r:calendar />}
                           
       today = Date.today
-      expected = %r{<div id="events-calendar">.*<th[^>]*>#{Date::MONTHNAMES[today.month]}</th>.*<td[^>]*><a href="/events/#{today.year}/#{today.month}/#{today.mday}">#{today.mday}</a>.*</div>}
+      expected = %r{\A<div id=\"events-calendar\">.*<th[^>]*>#{Date::MONTHNAMES[today.month]}\n?</th>.*<td[^>]*><a href=\"/events/#{today.year}/#{today.month}/#{today.mday}\">#{today.mday}</a>.*</div><script type=\"text/javascript\">.*</script>\Z}m
 
       pages(:home).should render(tag).matching(expected)
     end
@@ -17,7 +17,7 @@ describe 'EventsCalendar' do
     it 'should render a calendar for the specified month and year' do
       tag = %{<r:calendar year='2009' month='1' />}
 
-      expected = %r{<div id="events-calendar">.*</div>}
+      expected = %r{\A<div id=\"events-calendar\">.*<th[^>]*>#{Date::MONTHNAMES[1]}\n?</th>.*</div><script type=\"text/javascript\">.*</script>\Z}m
 
       pages(:home).should render(tag).matching(expected)
     end
