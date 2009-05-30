@@ -1,5 +1,5 @@
-module ActionView::Helpers
-  class DateTimeSelector
+module ActionView::Helpers::DateHelper
+  #class DateTimeSelector
      def select_minute_with_simple_time_select
         return select_minute_without_simple_time_select unless @options[:simple_time_select].eql? true
         
@@ -75,7 +75,7 @@ module ActionView::Helpers
       end
       alias_method_chain :select_day, :simple_time_select
      
-  end
+  #end
 end
 
 def ampm_hour(hour)

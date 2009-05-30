@@ -1,5 +1,6 @@
 module CalendarsHelper
   include CalendarHelper
+  include ERB::Util
 
   def make_calendar(this_month)
     next_month = this_month + 1.month
@@ -36,7 +37,7 @@ module CalendarsHelper
 
       block << %Q{<div id="#{div_id}">}
       block << calendar(calendar_options) do |d|
-        if days_with_events.has_key?(d)
+        if days_with_events[d]
           event_list = %Q{<div id="events-#{d.jd}" class="calendar-data"><dl class="events">}
           eod = d + 1.day - 1.second
           # Sort events by start time, with full-day events being placed
