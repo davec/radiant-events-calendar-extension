@@ -2,12 +2,17 @@
 
 A calendar of events for Radiant CMS.
 
+Note: This version of the events_calendar extension works with Radiant 0.7.1 and
+does not work with Radiant 0.8. If you are using Radiant 0.8 or later, please
+pull from the master branch. Also note that no testing has been done on Radiant
+versions prior to 0.7.1.
+
 == Installation
 
 This extension relies on the share_layouts extension, so install it first if you
 are not already using it:
 
-  git submodule add http://github.com/radiant/radiant-share-layouts-extension.git vendor/extensions/share_layouts
+  git submodule add git://github.com/radiant/radiant-share-layouts-extension.git vendor/extensions/share_layouts
 
 Edit config/environment.rb to force share_layouts to load first:
 
