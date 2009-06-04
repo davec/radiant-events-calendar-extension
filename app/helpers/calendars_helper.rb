@@ -54,9 +54,10 @@ module CalendarsHelper
         end
         # HACK around a bug in RedCloth that inserts spurious p tags (the extra newlines seem to avoid the problem)
       end.gsub(/(<\/?(table|thead|tbody|tfoot|tr|th|td)[^>]*?>)/, "\n"+'\1')
+      block << "\n"
       block << events.join
-      block << '</div>'
-      block << %Q{<script type="text/javascript">makeToolTips();</script>}
+      block << "\n</div>"
+      block << %Q{\n<script type="text/javascript">makeToolTips();</script>\n}
     end
   end
 
