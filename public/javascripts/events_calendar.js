@@ -52,11 +52,18 @@ function makeToolTips() {
     ActiveToolTip = $('active-tooltip');
   }
 
+  var use_writeAttribute = typeof ActiveToolTip.onmouseover == 'undefined';
+
   $$('div.calendar-data').each(function(e){
     var jd = e.id.replace(/\D+(\d+)/, '$1');
     calendar_cell = $('day-'+jd);
     ToolTips[jd] = new ToolTip(e.id, $('day-'+jd), 5, 5);
-    calendar_cell.writeAttribute({onmouseover:'ToolTips['+jd+'].show()',
-                                  onmouseout:'ToolTips['+jd+'].hide()'});
+    if (use_writeAttribute) {
+      calendar_cell.writeAttribute({onmouseover:'ToolTips['+jd+'].show()',
+                                    onmouseout:'ToolTips['+jd+'].hide()'});
+    } else {
+      calendar_cell.onmouseover = new Function('ToolTips['+jd+'].show();');
+      calendar_cell.onmouseout = new Function('ToolTips['+jd+'].hide();');
+    }
   });
 }
