@@ -1,11 +1,18 @@
 module CalendarsHelper
   include CalendarHelper
 
-  def make_calendar(this_month)
+  def make_calendar(this_month, rjs = false)
     next_month = this_month + 1.month
     last_month = this_month - 1.month
 
     div_id = 'events-calendar'
+
+    # The JS script to run to construct the tooltips varies depending on whether the
+    # response is for HTML or RJS. When responding to HTML, the JS func has to be
+    # run after the DOM is loaded (at least on IE6 and IE7, but not IE8, Firefox, or
+    # Safari). But when responding to RJS, the JS func has to be invoked directly.
+    tooltip_func = 'makeToolTips'.freeze
+    tooltip_script = rjs ? "#{tooltip_func}();" : "document.observe('dom:loaded', #{tooltip_func});"
 
     calendar_options = {
       :year => this_month.year,
@@ -56,8 +63,8 @@ module CalendarsHelper
       end.gsub(/(<\/?(table|thead|tbody|tfoot|tr|th|td)[^>]*?>)/, "\n"+'\1')
       block << "\n"
       block << events.join
+      block << %Q{<script type="text/javascript">#{tooltip_script}</script>\n}
       block << '</div>'
-      block << %Q{\n<script type="text/javascript">makeToolTips();</script>\n}
     end
   end
 

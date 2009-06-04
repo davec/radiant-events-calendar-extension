@@ -10,6 +10,7 @@
 .calendar th.monthName {
   font-size: 120%;
   font-weight: normal;
+  padding-bottom: 2px;
 }
 .calendar th .prevMonthName {
   margin-left: 0.5em;
