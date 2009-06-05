@@ -59,17 +59,11 @@
   font-weight: bold;
 }
 
-.calendar-data {
-  position: absolute;
-  top: 0;
-  left: 0;
-  visibility: hidden;
-}
 .tooltip {
   background-color: #99f;
   border: solid 1px #333;
   font: normal 10px sans-serif;
-  padding: 4px;
+  padding: 0.5ex 0.75em;
   width: 200px;
   z-index: 1000;
   position: absolute;
