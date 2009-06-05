@@ -45,7 +45,7 @@ module CalendarsHelper
       block << %Q{<div id="#{div_id}">}
       block << calendar(calendar_options) do |d|
         if days_with_events[d]
-          event_list = %Q{<div id="events-#{d.jd}" class="calendar-data">\n<dl class="events">\n}
+          event_list = %Q{<div id="events-#{d.jd}" class="calendar-data tooltip">\n<dl class="events">\n}
           eod = d + 1.day - 1.second
           # Sort events by start time, with full-day events being placed
           # at the end, followed by a secondary sort on the event name.
