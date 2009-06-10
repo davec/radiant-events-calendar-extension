@@ -2,7 +2,7 @@
 # require_dependency 'application'
 
 class EventsCalendarExtension < Radiant::Extension
-  version "0.1"
+  version "0.2"
   description "Adds a calendar of events to your Radiant site."
   url "http://github.com/davec/radiant-events-calendar-extension"
   
