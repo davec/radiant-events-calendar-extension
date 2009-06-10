@@ -6,5 +6,5 @@
         %dd.location= h event.location
       - if event.time
         %dd.time= h event.time(:format => '%l:%M %p')
-      %dd.description= h(event.description) || '&nbsp;'
+      %dd.description= h(event.short_description) || '&nbsp;'
   %p.footer Click date for more details

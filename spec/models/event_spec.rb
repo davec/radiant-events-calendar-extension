@@ -75,7 +75,7 @@ describe Event do
   end
 
   context 'finders' do
-    fixtures :events
+    dataset :events
 
     it 'should return all events for the current month' do
       events = Event.for_month(Date.today.month, Date.today.year)
@@ -86,6 +86,41 @@ describe Event do
       events = Event.for_date(Date.today)
       events.should_not be_nil
     end
+  end
+
+  context 'short description' do
+
+    it 'should return the description when only one sentence' do
+      @event.short_description.should == @event.description
+    end
+
+    it 'should return nil when description is nil' do
+      @event.description = nil
+      @event.short_description.should be_nil
+    end
+
+    %w(. ! ?).each do |punct|
+      it "should return the first sentence of the description (ending with #{punct})" do
+        first = "First sentence#{punct}"
+        second = "Second sentence."
+        @event.description = "#{first}\n\n#{second}"
+        @event.short_description.should == first
+      end
+    end
+
+    it 'should return the first two sentences' do
+        first = 'This is the first sentence!'
+        second = 'Is this the second sentence?'
+        third = 'Well, this is the third sentence.'
+        @event.description = "#{first}\n\n#{second}\n\n#{third}"
+        @event.short_description(:sentences => 2).should == "#{first} #{second}"
+    end
+
+    it 'should truncate the description' do
+      @event.description = 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Vivamus vitae risus vitae lorem iaculis placerat. Aliquam sit amet felis.'
+      @event.short_description(:truncate => 80).should == @event.description[0...77] + '...'
+    end
+
   end
 
 end
