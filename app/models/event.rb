@@ -25,6 +25,26 @@ class Event < ActiveRecord::Base
     str
   end
 
+  # Return a shortened description.
+  # The <tt>:truncate</tt> option truncates the description to the specified number of characters.
+  # The <tt>:sentences</tt> options truncates the description to the first N sentences.
+  # If no options are specified, the first sentence is returned.
+  #
+  # A sentence is considered to end with a `.`, `!`, or `?`. This simple
+  # definition means that "Hello, Mr. Teabag. I enjoy your walks." contains
+  # three, not two, sentences.
+  def short_description(options = {})
+    return nil unless description
+    if options[:truncate]
+      l = options[:truncate] - 3
+      chars = description.mb_chars
+      (chars.length > options[:truncate] ? chars[0...l] + '...' : description).to_s
+    else
+      count = [ options[:sentences].to_i, 1 ].max
+      description.split(/([!.?])\s*/, count+1).in_groups_of(2)[0,count].collect{|arr| arr.join}.join(' ')
+    end
+  end
+
   protected
 
     def ensure_start_time_and_end_time_are_sane
