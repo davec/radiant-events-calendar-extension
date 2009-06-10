@@ -6,5 +6,6 @@
         %dd.location= h event.location
       - if event.time
         %dd.time= h event.time(:format => '%l:%M %p')
-      %dd.description= h(event.short_description) || '&nbsp;'
+      -# Use a very restricted list of allowable tags
+      %dd.description= sanitize(event.short_description, :tags => %w(strong em b i sup sub br)) || '&nbsp;'
   %p.footer Click date for more details
