@@ -30,9 +30,10 @@ class Event < ActiveRecord::Base
   # The <tt>:sentences</tt> options truncates the description to the first N sentences.
   # If no options are specified, the first sentence is returned.
   #
-  # A sentence is considered to end with a `.`, `!`, or `?`. This simple
-  # definition means that "Hello, Mr. Teabag. I enjoy your walks." contains
-  # three, not two, sentences.
+  # A sentence is considered to end with a `.`, `!`, or `?`, followed by one or
+  # more whitespace characters. This simple definition means that the string
+  # "Good morning Mr. Teabag. A Mr. Pudey is waiting in your office." contains
+  # four, not two, sentences.
   def short_description(options = {})
     return nil unless description
     if options[:truncate]
@@ -41,7 +42,7 @@ class Event < ActiveRecord::Base
       (chars.length > options[:truncate] ? chars[0...l] + '...' : description).to_s
     else
       count = [ options[:sentences].to_i, 1 ].max
-      description.split(/([!.?])\s*/, count+1).in_groups_of(2)[0,count].collect{|arr| arr.join}.join(' ')
+      description.split(/([!.?])\s+/, count+1).in_groups_of(2)[0,count].collect{|arr| arr.join}.join(' ')
     end
   end
 

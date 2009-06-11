@@ -108,7 +108,7 @@ describe Event do
       end
     end
 
-    it 'should return the first two sentences' do
+    it 'should return the first two newline-separated sentences' do
         first = 'This is the first sentence!'
         second = 'Is this the second sentence?'
         third = 'Well, this is the third sentence.'
@@ -116,9 +116,27 @@ describe Event do
         @event.short_description(:sentences => 2).should == "#{first} #{second}"
     end
 
+    it 'should return the first two space-separated sentences' do
+        first = 'This is the first sentence!'
+        second = 'Is this the second sentence?'
+        third = 'Well, this is the third sentence.'
+        @event.description = "#{first} #{second} #{third}"
+        @event.short_description(:sentences => 2).should == "#{first} #{second}"
+    end
+
     it 'should truncate the description' do
       @event.description = 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Vivamus vitae risus vitae lorem iaculis placerat. Aliquam sit amet felis.'
       @event.short_description(:truncate => 80).should == @event.description[0...77] + '...'
+    end
+
+    it 'should ignore a non-terminal period' do
+      @event.description = 'See a preview of WidgetFu 1.0 in action.'
+      @event.short_description.should == @event.description
+    end
+
+    it 'should return both sentences' do
+      @event.description = 'See a preview of WidgetFu 1.0 in action. Coffee and donuts provided.'
+      @event.short_description(:sentences => 2).should == @event.description
     end
 
   end
