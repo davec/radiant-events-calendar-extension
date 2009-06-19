@@ -38,7 +38,7 @@ class Event < ActiveRecord::Base
     return nil unless description
     if options[:truncate]
       l = options[:truncate] - 3
-      chars = description.mb_chars
+      chars = description.send(String.respond_to?(:mb_chars) ? :mb_chars : :chars)
       (chars.length > options[:truncate] ? chars[0...l] + '...' : description).to_s
     else
       count = [ options[:sentences].to_i, 1 ].max

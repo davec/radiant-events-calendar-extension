@@ -1,21 +1,21 @@
-module ActionView::Helpers::DateHelper
-  #class DateTimeSelector
-     def select_minute_with_simple_time_select
-        return select_minute_without_simple_time_select unless @options[:simple_time_select].eql? true
+module ActionView::Helpers
+  module DateHelper
+     def select_minute_with_simple_time_select(datetime, options = {}, html_options = {})
+        return select_minute_without_simple_time_select(datetime, options, html_options) unless options[:simple_time_select].eql? true
         
         # Although this is a datetime select, we only care about the time.  Assume that the date will
         # be set by some other control, and the date represented here will be overriden
         
         val_minutes = @datetime.kind_of?(Time) ? @datetime.min + @datetime.hour*60 : @datetime
 
-        if @options[:minute_interval] 
-          minute_interval = @options[:minute_interval] 
+        if options[:minute_interval] 
+          minute_interval = options[:minute_interval] 
         else
           # Default is 15 minute intervals
           minute_interval = 15
         end
 
-        if @options[:use_hidden] || @options[:discard_minute]
+        if options[:use_hidden] || options[:discard_minute]
           build_hidden(:minute, val)
         else
           minute_options = []
@@ -34,48 +34,63 @@ module ActionView::Helpers::DateHelper
               )
             end
           end
-          build_select(:minute, minute_options)
+          select_html(:minute, minute_options, options, html_options)
         end
       end
       alias_method_chain :select_minute, :simple_time_select
       
       
-      def select_hour_with_simple_time_select
-        return select_hour_without_simple_time_select unless @options[:simple_time_select].eql? true
+      def select_hour_with_simple_time_select(datetime, options = {}, html_options = {})
+        return select_hour_without_simple_time_select(datetime, options, html_options) unless options[:simple_time_select].eql? true
         # Don't build the hour select
         #build_hidden(:hour, val)
+        ''  # Just return an empty string
       end
       alias_method_chain :select_hour, :simple_time_select
       
-      def select_second_with_simple_time_select
-        return select_second_without_simple_time_select unless @options[:simple_time_select].eql? true
+      def select_second_with_simple_time_select(datetime, options = {}, html_options = {})
+        return select_second_without_simple_time_select(datetime, options, html_options) unless options[:simple_time_select].eql? true
         # Don't build the seconds select
         #build_hidden(:second, val)
+        ''  # Just return an empty string
       end
       alias_method_chain :select_second, :simple_time_select
       
-      def select_year_with_simple_time_select
-        return select_year_without_simple_time_select unless @options[:simple_time_select].eql? true
+      def select_year_with_simple_time_select(datetime, options = {}, html_options = {})
+        return select_year_without_simple_time_select(datetime, options, html_options) unless options[:simple_time_select].eql? true
         # Don't build the year select
         #build_hidden(:year, val)
+        ''  # Just return an empty string
       end
       alias_method_chain :select_year, :simple_time_select
       
-      def select_month_with_simple_time_select
-        return select_month_without_simple_time_select unless @options[:simple_time_select].eql? true
+      def select_month_with_simple_time_select(datetime, options = {}, html_options = {})
+        return select_month_without_simple_time_select(datetime, options, html_options) unless options[:simple_time_select].eql? true
         # Don't build the month select
         #build_hidden(:month, val)
+        ''  # Just return an empty string
       end
       alias_method_chain :select_month, :simple_time_select
       
-      def select_day_with_simple_time_select
-        return select_day_without_simple_time_select unless @options[:simple_time_select].eql? true
+      def select_day_with_simple_time_select(datetime, options = {}, html_options = {})
+        return select_day_without_simple_time_select(datetime, options, html_options) unless options[:simple_time_select].eql? true
         # Don't build the day select
         #build_hidden(:day, val)
+        ''  # Just return an empty string
       end
       alias_method_chain :select_day, :simple_time_select
      
-  #end
+  end
+
+  class FormBuilder
+    def time_select_with_simple_time_select(method, options = {}, html_options = {})
+      result = time_select_without_simple_time_select(method, options, html_options)
+      # Remove the leading time separator
+      result = $1 if options[:simple_time_select].eql?(true) && result =~ /\A[^<]*(<.*)\z/m
+      result
+    end
+    alias_method_chain :time_select, :simple_time_select
+  end
 end
 
 def ampm_hour(hour)
