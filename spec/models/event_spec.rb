@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe Event do
@@ -129,6 +130,16 @@ describe Event do
       @event.short_description(:truncate => 80).should == @event.description[0...77] + '...'
     end
 
+    it 'should be aware of HTML markup when truncating the description' do
+      @event.description = '<strong>Lorem ipsum <i>dolor sit</i> amet</strong>, consectetuer adipiscing elit.'
+      @event.short_description(:truncate => 20).should == '<strong>Lorem ipsum <i>dolor</i></strong>...'
+    end
+
+    it 'should be multi-byte aware when truncating the description' do
+      @event.description = 'Lörem îpsum dołor ßit åmet, çonsectetuer adïpiscing eliţ.'
+      @event.short_description(:truncate => 24).should == 'Lörem îpsum dołor ßit...'
+    end
+
     it 'should ignore a non-terminal period' do
       @event.description = 'See a preview of WidgetFu 1.0 in action.'
       @event.short_description.should == @event.description
@@ -137,6 +148,30 @@ describe Event do
     it 'should return both sentences' do
       @event.description = 'See a preview of WidgetFu 1.0 in action. Coffee and donuts provided.'
       @event.short_description(:sentences => 2).should == @event.description
+    end
+
+  end
+
+  context 'filters' do
+
+    it 'should apply Markdown to the description' do
+      @event.description = 'Apply **Markdown** to this description.'
+      @event.filter_id = 'Markdown'
+      @event.save
+      @event.description_html.should =~ %r{\A\s*<p>Apply <(b|strong)>Markdown</\1> to this description.</p>\s*\z}
+    end
+
+    it 'should apply Textile to the description' do
+      @event.description = 'Apply *Textile* to this description.'
+      @event.filter_id = 'Textile'
+      @event.save
+      @event.description_html.should =~ %r{\A\s*<p>Apply <(b|strong)>Textile</\1> to this description.</p>\s*\z}
+    end
+
+    it 'should not apply any filter to the description' do
+      @event.description = 'Do not apply any filter to this description.'
+      @event.save
+      @event.description_html.should =~ %r{\A\s*<p>Do not apply any filter to this description.</p>\s*\z}
     end
 
   end

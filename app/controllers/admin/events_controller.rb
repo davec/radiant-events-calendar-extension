@@ -2,6 +2,8 @@ class Admin::EventsController < Admin::ResourceController
   before_filter :adjust_times, :only => [ :create, :update ]
   model_class Event
 
+  helper 'admin/references'
+
   protected
 
     def load_models
