@@ -37,12 +37,12 @@
   border: 1px solid #ddd;
   padding: 0.5em;
 }
-.calendar td.today {
-  background-color: #99f;
-}
 .calendar td.weekendDay {
   background-color: #ddd;
   border: 1px solid #fff;
+}
+.calendar td.today {
+  background-color: #99f;
 }
 .calendar td.otherMonth {
   color: #999;
