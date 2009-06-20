@@ -2,7 +2,7 @@
 # require_dependency 'application'
 
 class EventsCalendarExtension < Radiant::Extension
-  version "0.2"
+  version "0.3"
   description "Adds a calendar of events to your Radiant site."
   url "http://github.com/davec/radiant-events-calendar-extension"
   
@@ -24,12 +24,11 @@ class EventsCalendarExtension < Radiant::Extension
   end
   
   def activate
-    admin.tabs.add "Events", "/admin/events", :after => "Layouts"#, :visibility => [:all]
+    admin.tabs.add "Events", "/admin/events", :after => "Layouts"
     Page.send :include, EventsCalendarTags
   end
   
   def deactivate
-    # admin.tabs.remove "Events"
   end
   
 end
