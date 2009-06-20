@@ -64,7 +64,7 @@
   border: solid 1px #333;
   font: normal 10px sans-serif;
   padding: 0.5ex 0.75em;
-  width: 200px;
+  width: 220px;
   z-index: 1000;
   position: absolute;
   top: 0;
@@ -97,6 +97,6 @@ dl.events dd.description {
   color: #c00;
   font-size: 90%;
   font-weight: bold;
-  margin: 2em 1em 0;
+  margin: 1.5em 1em 0.5em;
   text-align: center;
 }
