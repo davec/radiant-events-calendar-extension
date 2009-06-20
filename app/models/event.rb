@@ -44,8 +44,8 @@ class Event < ActiveRecord::Base
     return nil unless description
     if options[:truncate]
       l = options[:truncate] - 3
-      chars = sanitize(description_html || description, :tags => %w(strong em b i sup sub br))#.mb_chars
-      (chars.length > options[:truncate] ? truncate_html(chars, l) : description).to_s
+      chars = sanitize(description_html || description, :tags => %w(strong em b i sup sub br))
+      (chars.length > options[:truncate] ? truncate_html(chars, :length => l) : description).to_s
     else
       count = [ options[:sentences].to_i, 1 ].max
       description.split(/([!.?])\s+/, count+1).in_groups_of(2)[0,count].collect{|arr| arr.join}.join(' ')
@@ -104,11 +104,26 @@ class Event < ActiveRecord::Base
 
     require 'rexml/parsers/pullparser'
 
-    def truncate_html(input, len = 30, extension = "...")
+    # Truncate text that includes HTML tags.
+    #
+    # The HTML tags are not included in the length calculation. Any unterminated
+    # HTML tags, caused by the truncation, are properly terminated in the result
+    # string.
+    #
+    # Adapted from http://www.railsgarden.com/2007/12/09/html-aware-truncate-text/
+    #
+    # ==== Examples
+    #
+    #   truncate_html("<b>Lorem ipsum <em>dolor sit</em> amet</b>, consectetuer adipiscing elit.", :length => 20))
+    #   # => <b>lorem ipsum <em>dolor</em></b>...
+    def truncate_html(input, options = {})
       def attrs_to_s(attrs)
         return '' if attrs.empty?
         attrs.to_a.map { |attr| %{#{attr[0]}="#{attr[1]}"} }.join(' ')
       end
+
+      len = options[:length] || 30
+      extension = options[:omission] || "..."
 
       p = REXML::Parsers::PullParser.new(input)
       tags = []
