@@ -12,7 +12,7 @@ versions prior to 0.7.1.
 This extension relies on the share_layouts extension, so install it first if you
 are not already using it:
 
-  git submodule add git://github.com/radiant/radiant-share-layouts-extension.git vendor/extensions/share_layouts
+  git clone add git://github.com/radiant/radiant-share-layouts-extension.git vendor/extensions/share_layouts
 
 Edit config/environment.rb to force share_layouts to load first:
 
@@ -20,10 +20,7 @@ Edit config/environment.rb to force share_layouts to load first:
 
 Install the events_calendar extension:
 
-  git submodule add git://github.com/davec/radiant-events-calendar-extension.git vendor/extensions/events_calendar
-
-Note: Substitute `git clone` for `git submodule add` if you do not want to
-install the extensions as submodules.
+  git clone add git://github.com/davec/radiant-events-calendar-extension.git vendor/extensions/events_calendar
 
 Now, run the migration and copy the public assets:
 
@@ -42,6 +39,13 @@ header:
 Events can be created and manged from the Events tab in the admin UI. A
 calendar and listings of events can be displayed in your templates using the
 supplied Radius tags.
+
+== Configuration
+
+As distributed, the template for individual event listings does not include any
+snippets or other page formatting beyond the listings themselves. You should alter
+vendor/extensions/events_calendar/app/views/events/show.html.haml as appropriate
+for your site.
 
 == Example
 
