@@ -56,7 +56,7 @@
         ~ f.text_area 'description', :class => 'textbox', :size => '60x10'
       %p.title
         %label{:for => 'event_filter_id'} Filter
-        = select_tag 'event[filter_id]', filter_options_for_select(''), :id => 'event_filter_id'
+        = select_tag 'event[filter_id]', filter_options_for_select(default_filter_name), :id => 'event_filter_id'
         %span#reference-links
           Reference:
           %span{:id => 'filter-reference-link-event'}
