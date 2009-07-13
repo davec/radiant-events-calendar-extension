@@ -10,7 +10,7 @@ If you are using Radiant 0.7.1, please pull from the radiant-0.7.1 branch.
 This extension relies on the share_layouts extension, so install it first if you
 are not already using it:
 
-  git clone add git://github.com/radiant/radiant-share-layouts-extension.git vendor/extensions/share_layouts
+  git clone git://github.com/radiant/radiant-share-layouts-extension.git vendor/extensions/share_layouts
 
 Edit config/environment.rb to force share_layouts to load first:
 
@@ -18,7 +18,7 @@ Edit config/environment.rb to force share_layouts to load first:
 
 Install the events_calendar extension:
 
-  git clone add git://github.com/davec/radiant-events-calendar-extension.git vendor/extensions/events_calendar
+  git clone git://github.com/davec/radiant-events-calendar-extension.git vendor/extensions/events_calendar
 
 Now, run the migration and copy the public assets:
 
