@@ -2,12 +2,12 @@ require File.dirname(__FILE__) + '/../spec_helper'
 
 describe 'EventsCalendar' do
   dataset :pages, :events
-      
+
   describe '<r:calendar>' do
 
     it 'should render a calendar for the current month and include events for today' do
       tag = %{<r:calendar />}
-                          
+
       today = Date.today
       expected = %r{\A<div id=\"events-calendar\">.*<th[^>]*>#{Date::MONTHNAMES[today.month]}\n?</th>.*<td[^>]*><a href=\"/events/#{today.year}/#{today.month}/#{today.mday}\">#{today.mday}</a>.*</div>\n?<script type=\"text/javascript\">.*</script>\n?</div>\Z}m
 
@@ -174,6 +174,17 @@ describe 'EventsCalendar' do
     it 'should return the event description' do
       tag = %Q{<r:events year='#{Date.today.year}' month='1' day='1'><r:each><r:event:description /></r:each></r:events>}
       expected = "New Year's Party"
+
+      pages(:home).should render(tag).as(expected)
+    end
+
+  end
+
+  describe '<r:events:each:event:category>' do
+
+    it 'should return the event category' do
+      tag = %Q{<r:events year='#{Date.today.year}' month='7' day='4'><r:each><r:event:category /></r:each></r:events>}
+      expected = "Holidays"
 
       pages(:home).should render(tag).as(expected)
     end

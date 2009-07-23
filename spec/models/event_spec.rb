@@ -7,6 +7,7 @@ describe Event do
                        :location => 'Some Location',
                        :date => Date.today + 1.week,
                        :description => 'An event for testing',
+                       :category => "Some Category",
                        :start_time => Date.today + 1.week + 8.hours,
                        :end_time => Date.today + 1.week + 17.hours,
                        :timezone => 'UTC')
@@ -38,6 +39,11 @@ describe Event do
 
     it 'should not require a description' do
       @event.description = nil
+      @event.should be_valid
+    end
+
+    it 'should not require a category' do
+      @event.category = nil
       @event.should be_valid
     end
 

@@ -1,7 +1,7 @@
 module EventsCalendarTags
   include Radiant::Taggable
   include CalendarsHelper
-      
+
   class TagError < StandardError ; end
 
   desc %{
@@ -99,6 +99,14 @@ module EventsCalendarTags
   tag 'event:description' do |tag|
     event = tag.locals.event
     event.description
+  end
+
+  desc %{
+    Renders the category for the current event.
+  }
+  tag 'event:category' do |tag|
+    event = tag.locals.event
+    event.category
   end
 
   desc %{

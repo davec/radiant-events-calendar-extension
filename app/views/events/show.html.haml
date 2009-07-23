@@ -3,6 +3,8 @@
 %dl.events
   - @events.each do |event|
     %dt= h event.name
+    - if event.category
+      %dd.category= h event.category
     - if event.location
       %dd.location= h event.location
     - unless event.time.blank?
