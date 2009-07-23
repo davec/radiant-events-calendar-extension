@@ -5,35 +5,23 @@ module EventsCalendarTags
   class TagError < StandardError ; end
 
   desc %{
-    Get all events for the given day.
-    If no date is given, the current day is used.
+    Gives access to all events.
 
-    *Usage:*
-    <pre><code><r:events /></code></pre>
-    <pre><code><r:events year='2009' month='3' day='15' /></code></pre>
+    <pre><code><r:events [year='number' month='number' day='number'] [by='attribute] [order="asc|desc"] [limit="number"] [offset="number"]/></code></pre>
   }
   tag 'events' do |tag|
-    options = [ tag.attr['year'], tag.attr['month'], tag.attr['day'] ].compact
-    raise TagError, "the events tag requires the date to be fully specified" unless options.empty? || options.length == 3
-
-    year  = (tag.attr['year']  || Date.today.year).to_i
-    month = (tag.attr['month'] || Date.today.month).to_i
-    day   = (tag.attr['day']   || Date.today.day).to_i
-
-    tag.locals.date = Date.civil(year,month,day)
+    tag.locals.events = Event.all(events_find_options(tag))
     tag.expand
   end
 
   desc %{
-    Loops through each event and renders the contents.
+    Loops through all events.
   }
   tag 'events:each' do |tag|
-    result = []
-    Event.for_date(tag.locals.date).each do |event|
+    tag.locals.events.collect do |event|
       tag.locals.event = event
-      result << tag.expand
+      tag.expand
     end
-    result
   end
 
   desc %{
@@ -128,4 +116,56 @@ module EventsCalendarTags
     make_calendar(date)
   end
 
+  private
+    def events_find_options(tag)
+      attr = tag.attr.symbolize_keys
+
+      options = {}
+      where_clauses = []
+      where_values = []
+
+      [:limit, :offset].each do |symbol|
+        if number = attr[symbol]
+          if number =~ /^\d{1,4}$/
+            options[symbol] = number.to_i
+          else
+            raise TagError.new("`#{symbol}' attribute of `each' tag must be a positive number between 1 and 4 digits")
+          end
+        end
+      end
+
+      by = (attr[:by] || 'id').strip
+      order = (attr[:order] || 'asc').strip
+      order_string = ""
+      if Event.column_names.include?(by)
+        order_string << by
+      else
+        raise TagError.new("`by' attribute of `each' tag must be set to a valid field name")
+      end
+      if order =~ /^(asc|desc)$/i
+        order_string << " #{$1.upcase}"
+      else
+        raise TagError.new(%{`order' attribute of `each' tag must be set to either "asc" or "desc"})
+      end
+      options[:order] = order_string
+
+      date = [ tag.attr['year'], tag.attr['month'], tag.attr['day'] ].compact
+      if !date.empty?
+        if date.length != 3
+          raise TagError, "the events tag requires the date to be fully specified"
+        end
+
+        where_clauses << "date = ?"
+        year  = tag.attr['year'].to_i
+        month = tag.attr['month'].to_i
+        day   = tag.attr['day'].to_i
+        where_values << Date.civil(year,month,day)
+      end
+
+      if !where_clauses.empty?
+        options[:conditions] = [where_clauses.join(" AND ")] + where_values
+      end
+
+      options
+    end
 end

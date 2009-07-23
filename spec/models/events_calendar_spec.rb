@@ -84,6 +84,50 @@ describe 'EventsCalendar' do
       pages(:home).should render(tag).as(expected)
     end
 
+    it 'should yield all events by default' do
+      tag = %{<r:events><r:each><r:event:name/></r:each></r:events>}
+      expected = Event.all.collect(&:name).join
+
+      pages(:home).should render(tag).as(expected)
+    end
+
+    it 'should yield events ascendingly by date' do
+      tag = %{<r:events by='date'><r:each><r:event:name/></r:each></r:events>}
+      expected = Event.all(:order => 'date').collect(&:name).join
+
+      pages(:home).should render(tag).as(expected)
+    end
+
+    it 'should yield events descendingly by date' do
+      tag = %{<r:events by='date' order="desc"><r:each><r:event:name/></r:each></r:events>}
+      expected = Event.all(:order => 'date DESC').collect(&:name).join
+
+      pages(:home).should render(tag).as(expected)
+    end
+
+    it 'should require a valid field name for the by attribute' do
+      tag = %{<r:events by='pants'><r:each><r:event:name/></r:each></r:events>}
+      pages(:home).should render(tag).with_error("`by' attribute of `each' tag must be set to a valid field name")
+    end
+
+    it 'should require a valid order attribute' do
+      tag = %{<r:events by='date' order="blargh"><r:each><r:event:name/></r:each></r:events>}
+      pages(:home).should render(tag).with_error(%{`order' attribute of `each' tag must be set to either "asc" or "desc"})
+    end
+
+    it 'should limit number of events' do
+      tag = %{<r:events limit="1"><r:each><r:event:name/></r:each></r:events>}
+      expected = Event.first.name
+
+      pages(:home).should render(tag).as(expected)
+    end
+
+    it 'should offset number of events' do
+      tag = %{<r:events limit="1" offset="1"><r:each><r:event:name/></r:each></r:events>}
+      expected = Event.all[1].name
+
+      pages(:home).should render(tag).as(expected)
+    end
   end
 
   describe '<r:events:each>' do
