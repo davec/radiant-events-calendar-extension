@@ -140,6 +140,13 @@ describe 'EventsCalendar' do
 
       pages(:home).should render(tag).as(expected)
     end
+
+    it 'should restrict events by category' do
+      tag = %{<r:events category="Holidays"><r:each><r:event:name/></r:each></r:events>}
+      expected = "Independence Day"
+
+      pages(:home).should render(tag).as(expected)
+    end
   end
 
   describe '<r:events:each>' do

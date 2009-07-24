@@ -175,6 +175,11 @@ module EventsCalendarTags
         where_values  << date
       end
 
+      if attr[:category]
+        where_clauses << "category = ?"
+        where_values  << attr[:category]
+      end
+
       if !where_clauses.empty?
         options[:conditions] = [where_clauses.join(" AND ")] + where_values
       end

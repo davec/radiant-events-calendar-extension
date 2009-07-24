@@ -55,10 +55,9 @@ The month and year tags can be added to display a calendar for a specific month.
 
   <r:calendar year='2008' month='8' />
 
-Events can also be displayed for a particular date (if the year, month, and day
-are not specified, events for the current day are retrieved).
+You can iterate over all events like so:
 
-  <r:events year='2009' month='3' day='15'>
+  <r:events>
     <dl>
       <r:each>
         <dt><r:event:name /></dt>
@@ -68,6 +67,34 @@ are not specified, events for the current day are retrieved).
       </r:each>
     </dl>
   </r:events>
+
+For today's events:
+
+  <r:events for="today">
+    <r:each>
+      ...
+    </r:each>
+  </r:events>
+
+For some other day's events:
+
+  <r:events for="2009-03-14">
+    <r:each>
+      ...
+    </r:each>
+  </r:events>
+
+Other options that you can put in the events tag (similar to children:each):
+* by (default: start_date)
+* order (default: asc)
+* limit
+* offset
+* category
+
+Special dates in the `for` option:
+* today
+* tomorrow
+* yesterday
 
 == Dependencies
 
