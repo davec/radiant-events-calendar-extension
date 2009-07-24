@@ -5,9 +5,15 @@ module EventsCalendarTags
   class TagError < StandardError ; end
 
   desc %{
-    Gives access to all events.
+    Gives access to all events, sorted by start_time by default.
 
-    <pre><code><r:events [year='number' month='number' day='number'] [by='attribute] [order="asc|desc"] [limit="number"] [offset="number"]/></code></pre>
+    The `for` attribute can be any of the following:
+    * "today"
+    * "tomorrow"
+    * "yesterday"
+    * a date in this format: "YYYY-MM-DD" (ex: 2009-03-14)
+
+    <pre><code><r:events [for='date'] [by='attribute'] [order="asc|desc"] [limit="number"] [offset="number"]/></code></pre>
   }
   tag 'events' do |tag|
     tag.locals.events = Event.all(events_find_options(tag))
@@ -15,7 +21,7 @@ module EventsCalendarTags
   end
 
   desc %{
-    Loops through all events.
+    Loops through events.
   }
   tag 'events:each' do |tag|
     tag.locals.events.collect do |event|
@@ -134,7 +140,7 @@ module EventsCalendarTags
         end
       end
 
-      by = (attr[:by] || 'id').strip
+      by = (attr[:by] || 'start_time').strip
       order = (attr[:order] || 'asc').strip
       order_string = ""
       if Event.column_names.include?(by)
@@ -149,17 +155,24 @@ module EventsCalendarTags
       end
       options[:order] = order_string
 
-      date = [ tag.attr['year'], tag.attr['month'], tag.attr['day'] ].compact
-      if !date.empty?
-        if date.length != 3
-          raise TagError, "the events tag requires the date to be fully specified"
-        end
+      if attr[:for]
+        date = case attr[:for]
+               when "today"
+                 Date.today
+               when "yesterday"
+                 Date.today - 1
+               when "tomorrow"
+                 Date.today + 1
+               else
+                 parts = attr[:for].split("-")
+                 if parts.length != 3
+                   raise TagError, "invalid date"
+                 end
+                 Date.civil(*parts.collect(&:to_i))
+               end
 
         where_clauses << "date = ?"
-        year  = tag.attr['year'].to_i
-        month = tag.attr['month'].to_i
-        day   = tag.attr['day'].to_i
-        where_values << Date.civil(year,month,day)
+        where_values  << date
       end
 
       if !where_clauses.empty?
