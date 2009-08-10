@@ -5,6 +5,21 @@ A calendar of events for Radiant CMS.
 Note: This version of the events_calendar extension is compatible with Radiant 0.8.
 If you are using Radiant 0.7.1, please pull from the radiant-0.7.1 branch.
 
+WARNING: The syntax of the `<r:events>` tag changed between version 0.3 and 0.4.
+
+A bare `<r:events>` tag no longer returns the events for the current day (use
+`<r:events for="today">` to achieve the same results) and instead returns all
+events.
+
+The `year`, `month`, and `day` attributes are no longer used; use the `for`
+attribute instead. Instead of
+
+  <r:events year="2009" month="12" day="6">
+
+use
+
+  <r:events for="2009-12-06">
+
 == Installation
 
 This extension relies on the share_layouts extension, so install it first if you
@@ -103,3 +118,8 @@ This extension depends on, and includes, the following plugins:
 * calendar_date_select <http://github.com/timcharper/calendar_date_select>
 * calendar_helper <http://github.com/topfunky/calendar_helper>
 * simple_time_select <http://github.com/tamoyal/simple_time_select>
+
+== Contributors
+
+David Cato (davec)
+Jeremy Stephens (viking)
