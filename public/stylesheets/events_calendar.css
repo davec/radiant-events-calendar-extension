@@ -85,6 +85,10 @@ dl.events dd {
 dl.events dd.time {
   font-weight: normal;
 }
+dl.events dd.category {
+  font-size: 110%;
+  font-style: italic;
+}
 dl.events dd.location {
   font-size: 110%;
 }

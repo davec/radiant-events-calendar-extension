@@ -2,6 +2,8 @@
   %dl.events
     - events.sort_by{|e| [e.start_time||end_of_day, e.name]}.each do |event|
       %dt= h event.name
+      - if event.category
+        %dd.category= h event.category
       - if event.location
         %dd.location= h event.location
       - if event.time

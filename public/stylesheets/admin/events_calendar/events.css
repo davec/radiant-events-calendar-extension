@@ -21,6 +21,7 @@
 }
 
 #content #event_form_area #event_name.textbox,
+#content #event_form_area #event_category.textbox,
 #content #event_form_area #event_location.textbox,
 #content #event_form_area #event_description.textbox {
   font-size: 125%;

@@ -24,6 +24,11 @@
         %label{:for => 'event_name'} Name
         = f.text_field :name, :class => 'textbox', :maxlength => 255
       %p.title
+        %label{:for => 'event_category'}
+          Category
+          %span.note (optional)
+        = f.text_field :category, :class => 'textbox', :maxlength => 255
+      %p.title
         %label{:for => 'event_location'}
           Location
           %span.note (optional)
