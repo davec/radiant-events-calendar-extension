@@ -2,13 +2,13 @@
 - default_filter_name = "#{@event.filter_id}"
 - content_for :page_scripts do
   :plain
-    var last_filter = "#{default_filter_name}";
+    var last_events_calendar_filter = "";
     function show_filter_reference() {
-      filter_type = $F('event_filter_id');
-      popup = $('filter-reference-popup');
-      if (last_filter != filter_type) {
-        url = "#{admin_reference_path(:id => 'filters')}";
-        params = "filter_name=" + filter_type;
+      var filter_type = $F('event_filter_id');
+      var popup = $('filter-reference-popup');
+      if (last_events_calendar_filter != filter_type) {
+        var url = "#{admin_reference_path(:id => 'filters')}";
+        var params = "filter_name=" + filter_type;
         new Effect.Highlight('filter-reference-link-event');
         req = new Ajax.Request(url, { method: 'get', parameters: params, evalScripts: true });
       } else {
