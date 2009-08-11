@@ -1,3 +1,4 @@
+- include_javascript 'controls'
 - default_filter_name = "#{@event.filter_id}"
 - content_for :page_scripts do
   :plain
@@ -27,7 +28,7 @@
         %label{:for => 'event_category'}
           Category
           %span.note (optional)
-        = f.text_field :category, :class => 'textbox', :maxlength => 255
+        = text_field_with_auto_complete :event, :category, { :class => 'textbox', :maxlength => 255 }, { :method => :get, :min_chars => 1, :frequency => 0.5 }
       %p.title
         %label{:for => 'event_location'}
           Location

@@ -115,6 +115,7 @@ Special dates in the `for` option:
 
 This extension depends on, and includes, the following plugins:
 
+* auto_complete <http://github.com/rails/auto_complete>
 * calendar_date_select <http://github.com/timcharper/calendar_date_select>
 * calendar_helper <http://github.com/topfunky/calendar_helper>
 * simple_time_select <http://github.com/tamoyal/simple_time_select>

@@ -8,7 +8,7 @@ class EventsCalendarExtension < Radiant::Extension
   
   define_routes do |map|
     map.namespace :admin, :member => { :remove => :get } do |admin|
-      admin.resources :events
+      admin.resources :events, :collection => { :auto_complete_for_event_category => :get }
     end
     map.events '/events/:year/:month/:day', :controller => 'events',
                                             :action => 'show',

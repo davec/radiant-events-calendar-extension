@@ -69,6 +69,10 @@
   margin-bottom: 1em;
 }
 
+#content #event_form_area div.auto_complete {
+  z-index: 100;
+}
+
 #content #events.index tr.inactive td.event a,
 #content #events.index tr.inactive td.event a:visited {
   font-style: italic;

@@ -4,6 +4,16 @@ class Admin::EventsController < Admin::ResourceController
 
   helper 'admin/references'
 
+  def auto_complete_for_event_category
+    find_options = {
+      :select => "DISTINCT category",
+      :conditions => [ "LOWER(category) LIKE ?", "#{params[:event][:category].downcase}%" ],
+      :order => "category ASC",
+      :limit => 10 }
+    @items = Event.send(:with_exclusive_scope) { Event.all find_options }
+    render :inline => "<%= auto_complete_result @items, 'category' %>"
+  end
+
   protected
 
     def load_models
