@@ -111,6 +111,17 @@ Special dates in the `for` option:
 * tomorrow
 * yesterday
 
+Relative date periods can also be used in the `for` option:
+* next 1 week
+* next 3 days
+* previous 2 months
+* any period matching the regexp `/(next|previous) \d+ (day|week|month|year)s?/`
+
+When specifying a relative date period, the `inclusive` attribute can also be
+specified to control whether the current day is included in the range. The
+default setting `inclusive="true"` included the current day, but if `inclusive`
+is set to any other value the current day is excluded from the returned value.
+
 == Dependencies
 
 This extension depends on, and includes, the following plugins:

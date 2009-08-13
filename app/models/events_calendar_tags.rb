@@ -12,8 +12,11 @@ module EventsCalendarTags
     * "tomorrow"
     * "yesterday"
     * a date in this format: "YYYY-MM-DD" (ex: 2009-03-14)
+    * a specified number of days, weeks, months, or years either in the future or past (e.g., "next 2 weeks", "previous 7 days")
 
-    <pre><code><r:events [for='date'] [by='attribute'] [order="asc|desc"] [limit="number"] [offset="number"]/></code></pre>
+    The `inclusive` attribute applies to relative `for` values. If set to `true` (the default) then `today` is included; otherwise `today` is excluded.
+
+    <pre><code><r:events [for="date" [inclusive="true|false"]] [by="attribute"] [order="asc|desc"] [limit="number"] [offset="number"]/></code></pre>
   }
   tag 'events' do |tag|
     tag.locals.events = Event.all(events_find_options(tag))
@@ -156,23 +159,36 @@ module EventsCalendarTags
       options[:order] = order_string
 
       if attr[:for]
-        date = case attr[:for]
-               when "today"
-                 Date.today
-               when "yesterday"
-                 Date.today - 1
-               when "tomorrow"
-                 Date.today + 1
-               else
-                 parts = attr[:for].split("-")
-                 if parts.length != 3
-                   raise TagError, "invalid date"
-                 end
-                 Date.civil(*parts.collect(&:to_i))
-               end
+        if attr[:for] =~ /\A(next|previous)\s+(\d+)\s+(day|week|month|year)s?\z/
+          direction, count, interval = $1, $2.to_i, $3
+          include_today = (attr[:inclusive] || "true") == "true"
+          if direction == "next"
+            start_date = include_today ? Date.today : Date.today + 1
+            end_date = Date.today + count.send(interval)
+          else
+            start_date = Date.today - count.send(interval)
+            end_date = include_today ? Date.today : Date.today - 1
+          end
 
-        where_clauses << "date = ?"
-        where_values  << date
+          where_clauses << "date >= ?" << "date <= ?"
+          where_values << start_date << end_date
+        else
+          date = case attr[:for]
+                 when "today"
+                   Date.today
+                 when "yesterday"
+                   Date.today - 1
+                 when "tomorrow"
+                   Date.today + 1
+                 else
+                   parts = attr[:for].split("-")
+                   raise TagError, "invalid date" unless parts.length == 3
+                   Date.civil(*parts.collect(&:to_i))
+                 end
+
+          where_clauses << "date = ?"
+          where_values  << date
+        end
       end
 
       if attr[:category]

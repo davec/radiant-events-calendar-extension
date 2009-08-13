@@ -89,6 +89,12 @@ describe 'EventsCalendar' do
       pages(:home).should render(tag).as(expected)
     end
 
+    it 'should not accept nonsense text for a date' do
+      tag = %{<r:events for="until the end of time" />}
+
+      pages(:home).should render(tag).with_error('invalid date')
+    end
+
     it 'should accept a bare tag and generate no output' do
       tag = %{<r:events />}
       expected = ''
@@ -250,6 +256,77 @@ describe 'EventsCalendar' do
       expected = "Holidays"
 
       pages(:home).should render(tag).as(expected)
+    end
+
+  end
+
+  context 'relative date periods' do
+
+    context 'period specification' do
+
+      it 'should accept relative date periods and generate no output' do
+        %w(next previous).each do |direction|
+          %w(days weeks months years).each do |period|
+            tag = %{<r:events for="#{direction} 2 #{period}" />}
+            expected = ''
+
+            pages(:home).should render(tag).as(expected)
+          end
+        end
+      end
+
+      it 'should accept the inclusive attribute and generate no output' do
+        %w(true false).each do |value|
+          tag = %{<r:events for="next 42 days" inclusive="#{value}" />}
+          expected = ''
+
+          pages(:home).should render(tag).as(expected)
+        end
+      end
+
+    end
+
+    context 'locating events' do
+
+      before do
+        Event.delete_all
+        create_event("Event for today",      Date.today,           :description => "Event for today")
+        create_event("Event for yesterday",  Date.today - 1,       :description => "Event for yesterday")
+        create_event("Event for last week",  Date.today - 1.week,  :description => "Event for last week")
+        create_event("Event for last month", Date.today - 1.month, :description => "Event for last month")
+        create_event("Event for last year",  Date.today - 1.year,  :description => "Event for last year")
+        create_event("Event for tomorrow",   Date.today + 1,       :description => "Event for tomorrow")
+        create_event("Event for next week",  Date.today + 1.week,  :description => "Event for next week")
+        create_event("Event for next month", Date.today + 1.month, :description => "Event for next month")
+        create_event("Event for next year",  Date.today + 1.year,  :description => "Event for next year")
+      end
+
+      it 'should find the correct events for the specified period' do
+        [true, false].each do |inclusive|
+          %w(next previous).each do |direction|
+            %w(days weeks months years).each do |period|
+              tag = %{<r:events for="#{direction} 1 #{period}" inclusive="#{inclusive.to_s}"><r:each><r:event:date />,</r:each></r:events>}
+              expected = ''
+              if direction == "next"
+                expected << "#{Date.today.strftime("%Y-%m-%d")}," if inclusive
+                expected << "#{(Date.today + 1.day).strftime('%Y-%m-%d')},"
+                expected << "#{(Date.today + 1.week).strftime('%Y-%m-%d')}," unless period == "days"
+                expected << "#{(Date.today + 1.month).strftime('%Y-%m-%d')}," if %w(months years).include?(period)
+                expected << "#{(Date.today + 1.year).strftime('%Y-%m-%d')}," if period == "years"
+              else
+                expected << "#{(Date.today - 1.year).strftime('%Y-%m-%d')}," if period == "years"
+                expected << "#{(Date.today - 1.month).strftime('%Y-%m-%d')}," if %w(months years).include?(period)
+                expected << "#{(Date.today - 1.week).strftime('%Y-%m-%d')}," unless period == "days"
+                expected << "#{(Date.today - 1.day).strftime('%Y-%m-%d')},"
+                expected << "#{Date.today.strftime('%Y-%m-%d')}," if inclusive
+              end
+
+              pages(:home).should render(tag).as(expected)
+            end
+          end
+        end
+      end
+
     end
 
   end
