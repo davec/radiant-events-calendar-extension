@@ -36,7 +36,7 @@
           -#%td.location
             = h event.location
           %td.remove
-            = link_to(image('remove', :alt => 'Remove event'), remove_admin_event_url(event), :method => :delete, :confirm => "Are you sure you want to delete #{event.name}")
+            = link_to(image('remove', :alt => 'Remove event'), remove_admin_event_url(event))
 
 %p
   = link_to(image('events_calendar/new-event', :alt => 'New Event'), new_admin_event_url)
