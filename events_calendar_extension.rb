@@ -1,5 +1,5 @@
 # Uncomment this if you reference any of your controllers in activate
-# require_dependency 'application'
+# require_dependency 'application_controller'
 
 class EventsCalendarExtension < Radiant::Extension
   version "0.8.1"

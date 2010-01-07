@@ -1,4 +1,7 @@
 class Admin::EventsController < Admin::ResourceController
+  if defined?(TextileEditorExtension)
+    before_filter :include_textile_editor_assets, :only => [:new, :edit]
+  end
   before_filter :adjust_times, :only => [ :create, :update ]
   model_class Event
 
