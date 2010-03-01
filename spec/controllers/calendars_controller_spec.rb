@@ -17,4 +17,10 @@ describe CalendarsController do
     response.should have_text(expected)
   end
 
+  it 'should return a calendar for the given month with a non-AJAX call' do
+    next_month = Date.today + 1.month
+    get :show, :year => next_month.year, :month => next_month.month
+    response.should be_success
+  end
+
 end

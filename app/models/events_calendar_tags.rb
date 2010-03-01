@@ -118,10 +118,15 @@ module EventsCalendarTags
     options = [ tag.attr['year'], tag.attr['month'] ].compact
     raise TagError, "the calendar tag requires a month and year to be specified" unless options.empty? || options.length == 2
 
-    year  = (tag.attr['year']  || Date.today.year).to_i
-    month = (tag.attr['month'] || Date.today.month).to_i
+    # If the JavaScript is not enabled in the client, CalendarsController#show stores the calendar dates in the session
+    stored_calendar_view = request.session[:calendar_view] || {}
 
-    date = Date.civil(year, month)
+    year  = tag.attr['year']  || stored_calendar_view[:year]  || Date.today.year
+    month = tag.attr['month'] || stored_calendar_view[:month] || Date.today.month
+
+    request.session.delete(:calendar_view)
+
+    date = Date.civil(year.to_i, month.to_i)
     make_calendar(date)
   end
 
