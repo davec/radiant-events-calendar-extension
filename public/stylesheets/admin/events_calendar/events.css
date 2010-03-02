@@ -3,6 +3,15 @@
   border-collapse: collapse;
 }
 
+#content #events.index th.modify {
+  text-align: center;
+}
+
+#content #events.index td.copy {
+  padding-left: 0;
+  width: 100px;
+}
+
 #content #events.index .node .event {
   font-size: 115%;
   font-weight: bold;

@@ -16,12 +16,12 @@
         Time
       -#%th.location
         Location
-      %th.modify
+      %th.modify{ :colspan => '2' }
         Modify
   %tbody
     - if @events.empty?
       %tr
-        %td.note{ :colspan => '5' }
+        %td.note{ :colspan => '6' }
           No Events
     - else
       - @events.each do |event|
@@ -35,6 +35,8 @@
             = h event.time
           -#%td.location
             = h event.location
+          %td.copy
+            = link_to(image('events_calendar/copy-event', :alt => 'Copy event'), copy_admin_event_url(event))
           %td.remove
             = link_to(image('remove', :alt => 'Remove event'), remove_admin_event_url(event))
 

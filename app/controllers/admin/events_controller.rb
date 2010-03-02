@@ -10,8 +10,16 @@ class Admin::EventsController < Admin::ResourceController
       :conditions => [ "LOWER(category) LIKE ?", "#{params[:event][:category].downcase}%" ],
       :order => "category ASC",
       :limit => 10 }
-    @items = Event.send(:with_exclusive_scope) { Event.all find_options }
+    @items = Event.send(:with_exclusive_scope) { Event.all(find_options) }
     render :inline => "<%= auto_complete_result @items, 'category' %>"
+  end
+
+  def copy
+    @event = Event.find(params[:id]).clone
+    render :new
+  rescue
+    flash[:notice] = "Error copying event"
+    redirect_to admin_events_url
   end
 
   protected
