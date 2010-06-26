@@ -7,7 +7,7 @@
       var filter_type = $F('event_filter_id');
       var popup = $('filter-reference-popup');
       if (last_events_calendar_filter != filter_type) {
-        var url = "#{admin_reference_path(:id => 'filters')}";
+        var url = "#{admin_reference_path('filters')}";
         var params = "filter_name=" + filter_type;
         new Effect.Highlight('filter-reference-link-event');
         req = new Ajax.Request(url, { method: 'get', parameters: params, evalScripts: true });
