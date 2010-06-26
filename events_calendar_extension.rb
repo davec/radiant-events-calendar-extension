@@ -7,11 +7,10 @@ class EventsCalendarExtension < Radiant::Extension
   url "http://github.com/davec/radiant-events-calendar-extension"
   
   def activate
-    admin.tabs.add "Events", "/admin/events", :after => "Layouts"
+    tab "Content" do
+      add_item "Events", "/admin/events", :after => "Pages"
+    end
     Page.send :include, EventsCalendarTags
-  end
-  
-  def deactivate
   end
   
 end
