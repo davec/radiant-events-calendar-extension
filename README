@@ -2,7 +2,8 @@
 
 A calendar of events for Radiant CMS.
 
-Note: This version of the events_calendar extension is compatible with Radiant 0.8.
+Note: This version of the events_calendar extension is compatible with Radiant 0.9.
+If you are using Radiant 0.8.x, please pull from the radiant-0.8.1 branch.
 If you are using Radiant 0.7.1, please pull from the radiant-0.7.1 branch.
 
 WARNING: The syntax of the `<r:events>` tag changed between version 0.3 and 0.4.
