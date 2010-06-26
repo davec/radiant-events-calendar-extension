@@ -34,7 +34,7 @@ module ActionView::Helpers
               )
             end
           end
-          build_select(:minute, minute_options)
+          build_select(:minute, minute_options.to_s)
         end
       end
       alias_method_chain :select_minute, :simple_time_select
