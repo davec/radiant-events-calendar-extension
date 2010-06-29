@@ -1,22 +1,6 @@
 - include_javascript 'admin/controls'
 - default_filter_name = "#{@event.filter_id}"
-- content_for :page_scripts do
-  :plain
-    var last_events_calendar_filter = "";
-    function show_filter_reference() {
-      var filter_type = $F('event_filter_id');
-      var popup = $('filter-reference-popup');
-      if (last_events_calendar_filter != filter_type) {
-        var url = "#{admin_reference_path('filters')}";
-        var params = "filter_name=" + filter_type;
-        new Effect.Highlight('filter-reference-link-event');
-        req = new Ajax.Request(url, { method: 'get', parameters: params, evalScripts: true });
-      } else {
-        center(popup);
-        Element.toggle(popup);
-      }
-      return false;
-    }
+- content_for :page_scripts, event_edit_javascripts
 
 - form_for [:admin, @event] do |f|
   .form-area
@@ -66,12 +50,12 @@
         ~ f.text_area 'description', :class => 'textbox', :size => '60x10'
       %p.title
         %label{:for => 'event_filter_id'}
-          = t('events_calendar.form.label.filter')
+          = t('filter')
         = select_tag 'event[filter_id]', filter_options_for_select(default_filter_name), :id => 'event_filter_id'
         %span#reference-links
           #{t('reference')}:
           %span{:id => 'filter-reference-link-event'}
-            = link_to_function t('events_calendar.form.label.filter'), "show_filter_reference();"
+            = link_to_function t('events_calendar.form.label.filter'), "loadFilterReference();"
   %span.clear &nbsp;
   = javascript_tag "$('event_name').activate()"
   %p.buttons
