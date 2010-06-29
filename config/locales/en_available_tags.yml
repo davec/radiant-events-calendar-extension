@@ -1,0 +1,55 @@
+---
+en:
+  desc: 
+    events: "Gives access to all events sorted, by default, by start_time.
+
+      The @for@ attribute can be any of the following:
+
+      * \"today\"
+      * \"tomorrow\"
+      * \"yesterday\"
+      * a date in YYYY-MM-DD format (e.g., 2009-03-14)
+      * a relative number of days, weeks, months, or years from the current day (e.g., \"next 2 weeks\", \"previous 7 days\")
+
+      The @inclusive@ attribute applies to the relative @for@ values. If set to
+      true (the default) then the current day is included; otherwise the current
+      day is excluded.
+
+      Events can be sorted, with the @by@ attribute, by name, location, date,
+      start_time and end_time; the order of sorting is determined by the @order@
+      attribute (default is to sort events in ascending order by start time).
+
+      *Usage*:
+      
+      <pre><code><r:events [for=\"date\" [inclusive=\"true|false\"]] [by=\"attribute\"] [order=\"asc|desc\"] [limit=\"count\"] [offset=\"count\"] /></code</pre>"
+    events-each: "Loops through events."
+    events-each-event: "Creates the context for a single event."
+    event-name: "Renders the name for the current event."
+    event-date: "Renders the date for the current event.
+    
+      An optional date format string, as used for @Date#strftime@, may be
+      specified with the @format@ attribute (the default is @%Y-%m-%d@).
+
+      *Usage*:
+      
+      <pre><code><r:event:date [format=\"%Y-%m-%d\"] /></code></pre>"
+    event-time: "Renders the time for the current event.
+
+      An optional time format string, as used for @Date#strftime@, may be
+      specified with the @format@ attribute (the default is @%H:%M@).
+
+      For events with both start and end time values, the @connector@ attribute
+      sets the text that separates the start and end time strings (the default
+      is a single hyphen).
+
+      *Usage*:
+      
+      <pre><code><r:event:time [format=\"%H:%M\"] [connector=\"-\"] /></code</pre>"
+    event-location: "Renders the location for the current event."
+    event-description: "Renders the description for the current event."
+    event-category: "Renders the category for the current event."
+    calendar: "Creates a calendar for the given month. If no date is given, the current month is used.
+
+      *Usage:*
+
+      <pre><code><r:calendar [year=\"2010\" month=\"6\"] /></code></pre>"
