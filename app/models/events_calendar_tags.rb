@@ -7,14 +7,22 @@ module EventsCalendarTags
   desc %{
     Gives access to all events, sorted by start_time by default.
 
-    The `for` attribute can be any of the following:
+    The @for@ attribute can be any of the following:
     * "today"
     * "tomorrow"
     * "yesterday"
-    * a date in this format: "YYYY-MM-DD" (ex: 2009-03-14)
-    * a specified number of days, weeks, months, or years either in the future or past (e.g., "next 2 weeks", "previous 7 days")
+    * a date in YYYY-MM-DD format (e.g., 2009-03-14)
+    * a relative number of days, weeks, months, or years from the current day (e.g., "next 2 weeks", "previous 7 days")
 
-    The `inclusive` attribute applies to relative `for` values. If set to `true` (the default) then `today` is included; otherwise `today` is excluded.
+    The @inclusive@ attribute applies to relative @for@ values. If set to true
+    (the default) then the current day is included; otherwise the current day
+    is excluded.
+
+    Events can be sorted (with the @by@ attribute) by name, location, date,
+    start_time, or end_time; the order of sorting is determined by the @order@
+    attribute (default sorting is in ascending order by event start time).
+
+    *Usage:*
 
     <pre><code><r:events [for="date" [inclusive="true|false"]] [by="attribute"] [order="asc|desc"] [limit="number"] [offset="number"]/></code></pre>
   }
@@ -50,8 +58,9 @@ module EventsCalendarTags
 
   desc %{
     Renders the date for the current event.
-    An optional date format string may be specified.
-    The default format string is <code>%Y-%m-%d</code>.
+
+    An optional date format string, as used for @Date#strftime@, may be
+    specified with the @format@ attribute (the default @%Y-%m-%d@).
 
     *Usage:*
     <pre><code><r:event:date /></code></pre>
@@ -65,9 +74,13 @@ module EventsCalendarTags
 
   desc %{
     Renders the time for the current event.
-    An optional time format string and time connector, for time ranges, may be specified.
-    The default format string is <code>%H:%M</code> and the default connector is <code>-</code> (hyphen).
-    The time connector is only used when an event has both a start time and an end time.
+
+    An optional time format string, as used for @Date#strftime@, may be
+    specified with the @format@ attribute (the default is @%H:%M@).
+    
+    For events with both start and end time values, the @connector@ attribute
+    sets the text that separates the start and end time strings (the default
+    is a single hyphen).
 
     *Usage:*
     <pre><code><r:event:time /></code></pre>
