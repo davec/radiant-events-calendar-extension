@@ -6,8 +6,7 @@
   .form-area
     #event_form_area
       %p.title
-        %label{:for => 'event_name'}
-          = t('events_calendar.form.label.name')
+        = f.label :name, t('events_calendar.form.label.name')
         = f.text_field :name, :class => 'textbox', :maxlength => 255
       %p.title
         %label{:for => 'event_category'}
@@ -22,8 +21,7 @@
       .schedule
         .date
           %p.title
-            %label{:for => 'event_date'}
-              = t('events_calendar.form.label.date')
+            = f.label :date, t('events_calendar.form.label.date')
             = calendar_date_select_tag 'event[date]', @event.date || Date.today, :time => false, :clear_button => false, :year_range => [0.years.ago, 5.years.from_now], :embedded => true
         .time
           %p.title
@@ -41,17 +39,14 @@
             = f.time_select :end_time, { :default => @event.end_time ? @event.end_time : nil, :time_separator => '', :minute_interval => 15, :include_blank => true, :simple_time_select => true }
         .timezone
           %p.title
-            %label{:for => 'event_timezone'}
-              = t('events_calendar.form.label.timezone')
+            = f.label :timezone, t('events_calendar.form.label.timezone')
             = f.time_zone_select :timezone
       %p.title
-        %label{:for => 'event_description'}
-          = t('events_calendar.form.label.description')
+        = f.label :description, t('events_calendar.form.label.description')
         ~ f.text_area 'description', :class => 'textbox', :size => '60x10'
       %p.title
-        %label{:for => 'event_filter_id'}
-          = t('filter')
-        = select_tag 'event[filter_id]', filter_options_for_select(default_filter_name), :id => 'event_filter_id'
+        = f.label :filter_id, t('filter')
+        = f.select :filter_id, [[t('select.none'), '']] + TextFilter.descendants.map { |f| f.filter_name }.sort, :id => 'event_filter_id'
         %span#reference-links
           #{t('reference')}:
           %span{:id => 'filter-reference-link-event'}
