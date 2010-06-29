@@ -2,6 +2,6 @@
 - include_stylesheet calendar_date_select_stylesheets
 - calendar_date_select_javascripts.each{|f| include_javascript f}
 
-%h1 Edit Event
+%h1= t('events_calendar.action.edit')
 
 = render :partial => 'form'

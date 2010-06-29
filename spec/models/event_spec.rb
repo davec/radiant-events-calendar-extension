@@ -21,15 +21,15 @@ describe Event do
     it 'should require a name' do
       @event.name = nil
       @event.should_not be_valid
-      #@event.errors.on(:name).should == I18n.t('activerecord.errors.messages.blank')
-      @event.errors.on(:name).should == 'An event name must be specified'
+      @event.errors.on(:name).should == I18n.t('activerecord.errors.models.event.attributes.name.blank')
+      #@event.errors.on(:name).should == 'An event name must be specified'
     end
 
     it 'should require a date' do
       @event.date = nil
       @event.should_not be_valid
-      #@event.errors.on(:date).should == I18n.t('activerecord.errors.messages.blank')
-      @event.errors.on(:date).should == 'A date must be specified'
+      @event.errors.on(:date).should == I18n.t('activerecord.errors.models.event.attributes.date.blank')
+      #@event.errors.on(:date).should == 'A date must be specified'
     end
 
     it 'should not require a location' do
@@ -47,7 +47,7 @@ describe Event do
       @event.should be_valid
     end
 
-    it 'should not require a start and end time' do
+    it 'should not require a start time and an end time' do
       @event.start_time = @event.end_time = nil
       @event.should be_valid
     end
@@ -65,19 +65,22 @@ describe Event do
     it 'should require a start time with an end time' do
       @event.start_time = nil
       @event.should_not be_valid
-      @event.errors.on(:start_time).should == "The event's start time must be specified when an end time is specified"
+      @event.errors.on(:start_time).should == I18n.t('activerecord.errors.models.event.attributes.start_time.blank')
+      #@event.errors.on(:start_time).should == "A start time must be specified when an end time is specified"
     end
 
     it 'should require start time less than end time' do
       @event.start_time, @event.end_time = @event.end_time, @event.start_time
       @event.should_not be_valid
-      @event.errors.on(:start_time).should == "The event's start time must be earlier than its end time"
+      @event.errors.on(:start_time).should == I18n.t('activerecord.errors.models.event.attributes.start_time.after_end_time')
+      #@event.errors.on(:start_time).should == "The start time must be earlier than the end time"
     end
 
     it 'should not allow start time and end time to be equal' do
       @event.end_time = @event.start_time
       @event.should_not be_valid
-      @event.errors.on(:start_time).should == "The event's start time must be earlier than its end time"
+      @event.errors.on(:start_time).should == I18n.t('activerecord.errors.models.event.attributes.start_time.after_end_time')
+      #@event.errors.on(:start_time).should == "The start time must be earlier than the end time"
     end
   end
 

@@ -1,0 +1,53 @@
+---
+en:
+  activerecord:
+    errors:
+      models:
+        event:
+          attributes:
+            name:
+              blank: 'An event name must be specified'
+            date:
+              blank: 'A date must be specified'
+            filter_id:
+              too_long: 'The filter name must not be longer than {{count}} characters'
+            start_time:
+              blank: 'A start time must be specified when an end time is specified'
+              after_end_time: 'The start time must be earlier than the end time'
+  events_calendar:
+    copy_error: 'Error copying event'
+    action:
+      copy: 'Copy'
+      delete: 'Delete Event'
+      edit: 'Edit Event'
+      new: 'New Event'
+      remove: 'Remove Event'
+      remove_confirm: 'Are you sure you want to <strong class="warning">permanently remove</strong> the following event?'
+    form:
+      label:
+        name: 'Name'
+        category: 'Category'
+        optional: '(optional)'
+        location: 'Location'
+        date: 'Date'
+        start_time: 'Start Time'
+        end_time: 'End Time'
+        timezone: 'Timezone'
+        description: 'Description'
+        filter: 'Filter'
+    index:
+      title: 'Events'
+      instructions: 'Click on an event name below to edit it, or click <code>Remove</code> to delete it.'
+      column:
+        name: 'Name'
+        date: 'Date'
+        time: 'Time'
+        location: 'Location'
+      empty: 'No Events'
+    events:
+      show:
+        title: 'Events for {{date}}'
+    calendars:
+      show:
+        failed: 'Calendar generation failed'
+        more: 'Click date for more details'

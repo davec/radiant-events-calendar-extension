@@ -2,9 +2,9 @@ class Event < ActiveRecord::Base
   include ActionView::Helpers::SanitizeHelper
   extend ActionView::Helpers::SanitizeHelper::ClassMethods
 
-  validates_presence_of :name, :message => 'An event name must be specified'
-  validates_presence_of :date, :message => 'A date must be specified'
-  validates_length_of :filter_id, :maximum => 25, :allow_nil => true, :message => '{{count}}-character limit'
+  validates_presence_of :name
+  validates_presence_of :date
+  validates_length_of :filter_id, :maximum => 25, :allow_nil => true
   validate :ensure_start_time_and_end_time_are_sane
 
   default_scope :order => "date, start_time"
@@ -59,9 +59,9 @@ class Event < ActiveRecord::Base
     def ensure_start_time_and_end_time_are_sane
       if end_time.is_a?(Time)
         if !start_time.is_a?(Time)
-          errors.add(:start_time, "The event's start time must be specified when an end time is specified")
+          errors.add(:start_time, I18n.t('activerecord.errors.models.event.attributes.start_time.blank'))
         elsif start_time >= end_time
-          errors.add(:start_time, "The event's start time must be earlier than its end time")
+          errors.add(:start_time, I18n.t('activerecord.errors.models.event.attributes.start_time.after_end_time'))
         end
       end
     end

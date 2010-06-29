@@ -22,63 +22,68 @@
   .form-area
     #event_form_area
       %p.title
-        %label{:for => 'event_name'} Name
+        %label{:for => 'event_name'}
+          = t('events_calendar.form.label.name')
         = f.text_field :name, :class => 'textbox', :maxlength => 255
       %p.title
         %label{:for => 'event_category'}
-          Category
-          %span.note (optional)
+          = t('events_calendar.form.label.category')
+          %span.note (#{t('optional')})
         = text_field_with_auto_complete :event, :category, { :class => 'textbox', :maxlength => 255 }, { :method => :get, :min_chars => 1, :frequency => 0.5 }
       %p.title
         %label{:for => 'event_location'}
-          Location
-          %span.note (optional)
+          = t('events_calendar.form.label.location')
+          %span.note (#{t('optional')})
         = f.text_field :location, :class => 'textbox', :maxlength => 255
       .schedule
         .date
           %p.title
-            %label{:for => 'event_date'} Date
+            %label{:for => 'event_date'}
+              = t('events_calendar.form.label.date')
             = calendar_date_select_tag 'event[date]', @event.date || Date.today, :time => false, :clear_button => false, :year_range => [0.years.ago, 5.years.from_now], :embedded => true
         .time
           %p.title
             %label{:for => 'event_start_time'}
-              Start Time
+              = t('events_calendar.form.label.start_time')
               %br
-              %span.note (optional)
+              %span.note (#{t('optional')})
             = f.time_select :start_time, { :default => @event.start_time ? @event.start_time : nil, :time_separator => '', :minute_interval => 15, :include_blank => true, :simple_time_select => true }
         .time
           %p.title
             %label{:for => 'event_end_time'}
-              End Time
+              = t('events_calendar.form.label.end_time')
               %br
-              %span.note (optional)
+              %span.note (#{t('optional')})
             = f.time_select :end_time, { :default => @event.end_time ? @event.end_time : nil, :time_separator => '', :minute_interval => 15, :include_blank => true, :simple_time_select => true }
         .timezone
           %p.title
-            %label{:for => 'event_timezone'} Timezone
+            %label{:for => 'event_timezone'}
+              = t('events_calendar.form.label.timezone')
             = f.time_zone_select :timezone
       %p.title
-        %label{:for => 'event_description'} Description
+        %label{:for => 'event_description'}
+          = t('events_calendar.form.label.description')
         ~ f.text_area 'description', :class => 'textbox', :size => '60x10'
       %p.title
-        %label{:for => 'event_filter_id'} Filter
+        %label{:for => 'event_filter_id'}
+          = t('events_calendar.form.label.filter')
         = select_tag 'event[filter_id]', filter_options_for_select(default_filter_name), :id => 'event_filter_id'
         %span#reference-links
-          Reference:
+          #{t('reference')}:
           %span{:id => 'filter-reference-link-event'}
-            = link_to_function "Filter", "show_filter_reference();"
+            = link_to_function t('events_calendar.form.label.filter'), "show_filter_reference();"
   %span.clear &nbsp;
   = javascript_tag "$('event_name').activate()"
   %p.buttons
     = save_model_button(@event)
     = save_model_and_continue_editing_button(@event)
-    or
-    = link_to('Cancel', admin_events_url)
+    = t('or')
+    = link_to(t('cancel'), admin_events_url)
 #popups
   #filter-reference-popup.popup{ :style => "display:none;" }
     %h3
       %span#filter-type= default_filter_name
-      Reference
+      = t('reference')
     #filter-reference= filter_reference
     %p
-      = link_to 'Close', "#", :class => 'close'
+      = link_to t('close'), "#", :class => 'close'

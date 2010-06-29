@@ -18,7 +18,7 @@ class Admin::EventsController < Admin::ResourceController
     @event = Event.find(params[:id]).clone
     render :new
   rescue
-    flash[:notice] = "Error copying event"
+    flash[:notice] = t('events_calendar.copy_error')
     redirect_to admin_events_url
   end
 

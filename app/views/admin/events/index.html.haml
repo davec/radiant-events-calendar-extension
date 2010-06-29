@@ -1,28 +1,28 @@
 - include_stylesheet 'admin/events_calendar/events'
 
-%h1 Events
+%h1= t('events_calendar.index.title')
 
 %p
-  Click on an event name below to edit it, or click <code>Remove</code> to delete it.
+  != t('events_calendar.index.instructions')
 
 %table#events.index
   %thead
     %tr
       %th.name
-        Name
+        = t('events_calendar.index.column.name')
       %th.date
-        Date
+        = t('events_calendar.index.column.date')
       %th.time
-        Time
+        = t('events_calendar.index.column.time')
       -#%th.location
-        Location
+        = t('events_calendar.index.column.location')
       %th.modify{ :colspan => '2' }
-        Modify
+        = t('modify')
   %tbody
     - if @events.empty?
       %tr
         %td.note{ :colspan => '6' }
-          No Events
+          = t('events_calendar.index.empty')
     - else
       - @events.each do |event|
         %tr.node.level-1
@@ -30,15 +30,15 @@
             = image('events_calendar/event')
             = link_to(h(event.name), edit_admin_event_url(event))
           %td.date
-            = h event.date
+            &= event.date
           %td.time
-            = h event.time
+            &= event.time
           -#%td.location
-            = h event.location
+            &= event.location
           %td.copy
-            = link_to(image('events_calendar/copy-event', :alt => 'Copy event'), copy_admin_event_url(event))
+            = link_to(t('events_calendar.action.copy'), copy_admin_event_url(event))
           %td.remove
-            = link_to(image('remove', :alt => 'Remove event'), remove_admin_event_url(event))
+            = link_to(t('remove'), remove_admin_event_url(event))
 
 %p
-  = link_to(image('events_calendar/new-event', :alt => 'New Event'), new_admin_event_url)
+  = link_to(image('events_calendar/new-event', :alt => t('events_calendar.action.new')), new_admin_event_url)

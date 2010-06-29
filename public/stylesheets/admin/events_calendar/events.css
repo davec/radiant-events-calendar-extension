@@ -11,6 +11,13 @@
   padding-left: 0;
   width: 100px;
 }
+#content #events.index td.copy a {
+  background: url("../../../images/admin/plus.png") no-repeat scroll 4px 0 transparent;
+  color: black;
+  font-size: 80%;
+  padding: 0 0 0 20px;
+  text-decoration: none;
+}
 
 #content #events.index .node .event {
   font-size: 115%;
