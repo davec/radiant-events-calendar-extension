@@ -86,6 +86,7 @@
 }
 
 #content #event_form_area div.auto_complete {
+  color: black;
   z-index: 100;
 }
 
