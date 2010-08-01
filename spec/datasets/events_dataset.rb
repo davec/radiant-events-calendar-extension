@@ -1,10 +1,12 @@
 class EventsDataset < Dataset::Base
+  uses :home_page
 
   def load
     this_year = Date.today.year
-    create_event("Today's first event", Date.today, :description => "An event happening today.")
-    create_event("Today's second event", Date.today, :description => "Another event happening today.")
-    create_event("Today's late night event", Date.today, :description => "Another event happening today.")
+    start_of_today = Time.now.at_beginning_of_day
+    create_event("Today's first event", Date.today, :start_time => start_of_today + 10.hours, :description => "An event happening today.")
+    create_event("Today's second event", Date.today, :start_time => start_of_today + 16.hours, :description => "Another event happening today.")
+    create_event("Today's late night event", Date.today, :start_time => start_of_today + 23.hours, :description => "Another event happening today.")
     create_event("Yesterday's event", Date.yesterday, :description => "An event that happened yesterday.")
     create_event("Tomorrow's event", Date.tomorrow, :description => "An event happening tomorrow.")
     create_event("New Year's Day", Date.civil(this_year,1,1), :description => "New Year's Party", :location => "Swanky Hotel", :start_time => Time.local(this_year,1,1,0,0,0))
