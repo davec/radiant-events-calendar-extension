@@ -45,9 +45,49 @@ en:
       *Usage*:
       
       <pre><code><r:event:time [format=\"%H:%M\"] [connector=\"-\"] /></code</pre>"
+    event-if_time: "Render inner content if the current event has a defined start time.
+
+      *Usage*:
+
+      <pre><code><r:event:if_time>...</r:event:if_time></code></pre>"
+    event-unless_time: "Render inner content if the current event does not have a defined start time.
+
+      *Usage*:
+
+      <pre><code><r:event:unless_time>...</r:event:unless_time></code></pre>"
     event-location: "Renders the location for the current event."
+    event-if_location: "Render inner content if the current event has a location.
+
+      *Usage*:
+
+      <pre><code><r:event:if_location>...</r:event:if_location></code></pre>"
+    event-unless_location: "Render inner content if the current event does not have a location.
+
+      *Usage*:
+
+      <pre><code><r:event:unless_location>...</r:event:unless_location></code></pre>"
     event-description: "Renders the description for the current event."
+    event-if_description: "Render inner content if the current event has a description.
+
+      *Usage*:
+
+      <pre><code><r:event:if_description>...</r:event:if_description></code></pre>"
+    event-unless_description: "Render inner content if the current event does not have a description.
+
+      *Usage*:
+
+      <pre><code><r:event:unless_description>...</r:event:unless_description></code></pre>"
     event-category: "Renders the category for the current event."
+    event-if_category: "Render inner content if the current event has a category.
+
+      *Usage*:
+
+      <pre><code><r:event:if_category>...</r:event:if_category></code></pre>"
+    event-unless_category: "Render inner content if the current event does not have a category.
+
+      *Usage*:
+
+      <pre><code><r:event:unless_category>...</r:event:unless_category></code></pre>"
     calendar: "Creates a calendar for the given month. If no date is given, the current month is used.
 
       *Usage:*

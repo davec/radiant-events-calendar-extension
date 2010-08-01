@@ -118,7 +118,7 @@ describe 'EventsCalendar' do
 
     it 'should require a valid field name for the by attribute' do
       tag = %{<r:events by='pants'><r:each><r:event:name/></r:each></r:events>}
-      pages(:home).should render(tag).with_error("`by' attribute of `each' tag must be set to a valid field name")
+      pages(:home).should render(tag).with_error("the `by' attribute of the `each' tag must be set to a valid field name")
     end
 
     it 'should require a valid order attribute' do
@@ -235,9 +235,23 @@ describe 'EventsCalendar' do
 
     it 'should return the event description' do
       tag = %Q{<r:events for='#{Date.today.year}-01-01'><r:each><r:event:description /></r:each></r:events>}
-      expected = "New Year's Party"
+      expected = "<p>New Year&#8217;s Party</p>"
 
       pages(:home).should render(tag).as(expected)
+    end
+
+    %w(true false).each do |sanitization|
+      it %Q{should accept sanitize="#{sanitization}"} do
+        tag = %Q{<r:events for='#{Date.today.year}-01-01'><r:each><r:event:description sanitize="#{sanitization}" /></r:each></r:events>}
+        expected = "<p>New Year&#8217;s Party</p>"
+        
+        pages(:home).should render(tag).as(expected)
+      end
+    end
+
+    it 'should require a valid value for sanitize' do
+      tag = %Q{<r:events for='#{Date.today.year}-01-01'><r:each><r:event:description sanitize="foo" /></r:each></r:events>}
+      pages(:home).should render(tag).with_error(%{the `sanitize' attribute of the `description' tag must be either "true" or "false"})
     end
 
   end

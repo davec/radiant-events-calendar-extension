@@ -23,15 +23,6 @@ use
 
 == Installation
 
-This extension relies on the share_layouts extension, so install it first if you
-are not already using it:
-
-  git clone git://github.com/radiant/radiant-share-layouts-extension.git vendor/extensions/share_layouts
-
-Edit config/environment.rb to force share_layouts to load first:
-
-  config.extensions = [ :share_layouts, :all ]
-
 Install the events_calendar extension:
 
   git clone git://github.com/davec/radiant-events-calendar-extension.git vendor/extensions/events_calendar
@@ -56,10 +47,12 @@ supplied Radius tags.
 
 == Configuration
 
-As distributed, the template for individual event listings does not include any
-snippets or other page formatting beyond the listings themselves. You should alter
-vendor/extensions/events_calendar/app/views/events/show.html.haml as appropriate
-for your site.
+This extension uses a custom page type called Events that is used to show all
+events for a specific day via the /events/year/month/day path. (This replaces
+the events show template that was previously used.) A default events page is
+installed unless a page with a slug named `events` already exists.
+
+When used in an Events page, the <r:events> tag does not take any attributes.
 
 == Example
 
