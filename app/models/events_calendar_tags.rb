@@ -72,6 +72,8 @@ module EventsCalendarTags
     <pre><code><r:event:time format='%I:%M %p' connector='to' /></code></pre>
   }
   tag 'event:time' do |tag|
+    return tag.expand if tag.double?
+
     event = tag.locals.event
     return '' unless event.start_time
 
@@ -98,6 +100,38 @@ module EventsCalendarTags
   }
   tag 'event:unless_time' do |tag|
     tag.expand unless tag.locals.event.start_time
+  end
+
+  desc %{
+    Renders the start time for the current event.
+    The default time format is <code>%H:%M</code> but can be changed by setting a different format with the <code>format</code> attribute.
+
+    *Usage:*
+    <pre><code><r:event:time:start /></code></pre>
+    <pre><code><r:event:time:start format='%I:%M %p' /></code></pre>
+  }
+  tag 'event:time:start' do |tag|
+    event = tag.locals.event
+    return '' unless event.start_time
+
+    format = tag.attr['format'] || '%H:%M'
+    event.start_time.strftime(format)
+  end
+
+  desc %{
+    Renders the end time for the current event.
+    The default time format is <code>%H:%M</code> but can be changed by setting a different format with the <code>format</code> attribute.
+
+    *Usage:*
+    <pre><code><r:event:time:end /></code></pre>
+    <pre><code><r:event:time:end format='%I:%M %p' /></code></pre>
+  }
+  tag 'event:time:end' do |tag|
+    event = tag.locals.event
+    return '' unless event.end_time
+
+    format = tag.attr['format'] || '%H:%M'
+    event.end_time.strftime(format)
   end
 
   desc %{
