@@ -2,6 +2,9 @@ class EventsDataset < Dataset::Base
   uses :home_page
 
   def load
+    create_page "Events", :slug => "events", :title => "Events", :class_name => "EventsPage", :virtual => true do
+      create_page_part "events_body", :name => "body", :content => "<r:events:each><r:event:name /></r:events:each>"
+    end
     this_year = Date.today.year
     start_of_today = Time.now.at_beginning_of_day
     create_event("Today's first event", Date.today, :start_time => start_of_today + 10.hours, :description => "An event happening today.")

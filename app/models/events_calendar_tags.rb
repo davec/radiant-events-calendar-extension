@@ -44,8 +44,7 @@ module EventsCalendarTags
     Renders the name for the current event.
   }
   tag 'event:name' do |tag|
-    event = tag.locals.event
-    event.name
+    tag.locals.event.name
   end
 
   desc %{
@@ -58,9 +57,8 @@ module EventsCalendarTags
     <pre><code><r:event:date format='%d %b %Y' /></code></pre>
   }
   tag 'event:date' do |tag|
-    event = tag.locals.event
     format = tag.attr['format'] || '%Y-%m-%d'
-    event.date.strftime(format)
+    tag.locals.event.date.strftime(format)
   end
 
   desc %{
@@ -83,27 +81,121 @@ module EventsCalendarTags
   end
 
   desc %{
-    Renders the location for the current event.
+    Render inner content if the current event has a defined start time.
+
+    *Usage:*
+    <pre><code><r:event:if_time>...</r:event:if_time></code></pre>
   }
-  tag 'event:location' do |tag|
-    event = tag.locals.event
-    event.location
+  tag 'event:if_time' do |tag|
+    tag.expand if tag.locals.event.start_time
   end
 
   desc %{
-    Renders the description for the current event.
+    Render inner content if the current event does not have a defined start time.
+
+    *Usage:*
+    <pre><code><r:event:unless_time>...</r:event:unless_time></code></pre>
+  }
+  tag 'event:unless_time' do |tag|
+    tag.expand unless tag.locals.event.start_time
+  end
+
+  desc %{
+    Renders the location for the current event.
+  }
+  tag 'event:location' do |tag|
+    tag.locals.event.location
+  end
+
+  desc %{
+    Render inner content if the current event has a location.
+
+    *Usage:*
+    <pre><code><r:event:if_location>...</r:event:if_location></code></pre>
+  }
+  tag 'event:if_location' do |tag|
+    tag.expand if tag.locals.event.location
+  end
+
+  desc %{
+    Render inner content if the current event does not have a location.
+
+    *Usage:*
+    <pre><code><r:event:unless_location>...</r:event:unless_location></code></pre>
+  }
+  tag 'event:unless_location' do |tag|
+    tag.expand unless tag.locals.event.location
+  end
+
+  desc %{
+    Renders the HTML-formatted description for the current event.
+
+    The returned HTML is sanitized for your protection using `HTML::WhiteListSanitizer#sanitize`.
+    If sanitization is not desired, specify `sanitize="false"`.
+
+    *Usage:*
+    <pre><code><r:event:description /></code></pre>
+    <pre><code><r:event:description sanitize="false" /></code></pre>
   }
   tag 'event:description' do |tag|
     event = tag.locals.event
-    event.description
+    sanitize = tag.attr['sanitize'] || 'true'
+    case sanitize
+    when 'false'
+      event.description_html
+    when 'true'
+      @sanitizer ||= HTML::WhiteListSanitizer.new
+      @sanitizer.sanitize(event.description_html)
+    else
+      raise TagError, %{the `sanitize' attribute of the `description' tag must be either "true" or "false"}
+    end
+  end
+
+  desc %{
+    Render inner content if the current event has a description.
+
+    *Usage:*
+    <pre><code><r:event:if_description>...</r:event:if_description></code></pre>
+  }
+  tag 'event:if_description' do |tag|
+    tag.expand if tag.locals.event.description
+  end
+
+  desc %{
+    Render inner content if the current event does not have a description.
+
+    *Usage:*
+    <pre><code><r:event:unless_description>...</r:event:unless_description></code></pre>
+  }
+  tag 'event:unless_description' do |tag|
+    tag.expand unless tag.locals.event.description
   end
 
   desc %{
     Renders the category for the current event.
   }
   tag 'event:category' do |tag|
-    event = tag.locals.event
-    event.category
+    tag.locals.event.category
+  end
+
+  desc %{
+    Render inner content if the current event has a category.
+
+    *Usage:*
+    <pre><code><r:event:if_category>...</r:event:if_category></code></pre>
+  }
+  tag 'event:if_category' do |tag|
+    tag.expand if tag.locals.event.category
+  end
+
+  desc %{
+    Render inner content if the current event does not have a category.
+
+    *Usage:*
+    <pre><code><r:event:unless_category>...</r:event:unless_category></code></pre>
+  }
+  tag 'event:unless_category' do |tag|
+    tag.expand unless tag.locals.event.category
   end
 
   desc %{
@@ -131,6 +223,7 @@ module EventsCalendarTags
   end
 
   private
+
     def events_find_options(tag)
       attr = tag.attr.symbolize_keys
 
@@ -143,7 +236,7 @@ module EventsCalendarTags
           if number =~ /^\d{1,4}$/
             options[symbol] = number.to_i
           else
-            raise TagError.new("`#{symbol}' attribute of `each' tag must be a positive number between 1 and 4 digits")
+            raise TagError, %{the `#{symbol}' attribute of the `each' tag must be a positive number between 1 and 4 digits}
           end
         end
       end
@@ -154,12 +247,12 @@ module EventsCalendarTags
       if Event.column_names.include?(by)
         order_string << by
       else
-        raise TagError.new("`by' attribute of `each' tag must be set to a valid field name")
+        raise TagError, %{the `by' attribute of the `each' tag must be set to a valid field name}
       end
       if order =~ /^(asc|desc)$/i
         order_string << " #{$1.upcase}"
       else
-        raise TagError.new(%{`order' attribute of `each' tag must be set to either "asc" or "desc"})
+        raise TagError, %{`order' attribute of `each' tag must be set to either "asc" or "desc"}
       end
       options[:order] = order_string
 

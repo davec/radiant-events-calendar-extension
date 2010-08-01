@@ -47,7 +47,7 @@ module CalendarsHelper
           eod = d + 1.day - 1.second
           events << ActionView::Base.new(ActionController::Base.view_paths).render(:partial => 'calendars/events', :locals => { :id => d.jd, :events => days_with_events[d], :end_of_day => eod })
 
-          [ %Q{<a href="#{events_path(:year => this_month.year, :month => this_month.month, :day => d.mday)}">#{d.mday}</a>}, { :class => 'eventDay', :id => "day-#{d.jd}" } ]
+          [ %Q{<a href="/events/#{this_month.year}/#{this_month.month}/#{d.mday}">#{d.mday}</a>}, { :class => 'eventDay', :id => "day-#{d.jd}" } ]
         end
         # HACK around a bug in RedCloth that inserts spurious p tags (the extra newlines seem to avoid the problem)
       end.gsub(/(<\/?(table|thead|tbody|tfoot|tr|th|td)[^>]*?>)/, "\n"+'\1')
