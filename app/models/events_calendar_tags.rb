@@ -7,14 +7,14 @@ module EventsCalendarTags
   desc %{
     Gives access to all events, sorted by start_time by default.
 
-    The `for` attribute can be any of the following:
+    The <code>for</code> attribute can be any of the following:
     * "today"
     * "tomorrow"
     * "yesterday"
     * a date in this format: "YYYY-MM-DD" (ex: 2009-03-14)
     * a specified number of days, weeks, months, or years either in the future or past (e.g., "next 2 weeks", "previous 7 days")
 
-    The `inclusive` attribute applies to relative `for` values. If set to `true` (the default) then `today` is included; otherwise `today` is excluded.
+    The <code>inclusive</code> attribute applies to relative <code>for</code> values. If set to <code>true</code> (the default) then <code>today</code> is included; otherwise <code>today</code> is excluded.
 
     <pre><code><r:events [for="date" [inclusive="true|false"]] [by="attribute"] [order="asc|desc"] [limit="number"] [offset="number"]/></code></pre>
   }
@@ -130,8 +130,8 @@ module EventsCalendarTags
   desc %{
     Renders the HTML-formatted description for the current event.
 
-    The returned HTML is sanitized for your protection using `HTML::WhiteListSanitizer#sanitize`.
-    If sanitization is not desired, specify `sanitize="false"`.
+    The returned HTML is sanitized for your protection using <code>HTML::WhiteListSanitizer#sanitize</code>.
+    If sanitization is not desired, specify <code>sanitize="false"</code>.
 
     *Usage:*
     <pre><code><r:event:description /></code></pre>
