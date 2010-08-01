@@ -9,7 +9,7 @@ body:
           <r:if_category><dd class="category"><r:category /></dd></r:if_category>
           <r:if_location><dd class="location"><r:location /></dd></r:if_location>
           <r:if_time><dd class="time"><r:time /></dd></r:if_time>
-          <dd class="description"><r:if_description><r:description format="html" /></r:if_description><r:unless_description>&nbsp;</r:unless_description></dd>
+          <dd class="description"><r:if_description><r:description /></r:if_description><r:unless_description>&nbsp;</r:unless_description></dd>
         </r:event>
       </r:events:each>
     </dl>
