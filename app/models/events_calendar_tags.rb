@@ -7,19 +7,17 @@ module EventsCalendarTags
   desc %{
     Gives access to all events, sorted by start_time by default.
 
-    The @for@ attribute can be any of the following:
+    The <code>for</code> attribute can be any of the following:
     * "today"
     * "tomorrow"
     * "yesterday"
     * a date in YYYY-MM-DD format (e.g., 2009-03-14)
     * a relative number of days, weeks, months, or years from the current day (e.g., "next 2 weeks", "previous 7 days")
 
-    The @inclusive@ attribute applies to relative @for@ values. If set to true
-    (the default) then the current day is included; otherwise the current day
-    is excluded.
+    The <code>inclusive</code> attribute applies to relative <code>for</code> values. If set to <code>true</code> (the default) then <code>today</code> is included; otherwise <code>today</code> is excluded.
 
-    Events can be sorted (with the @by@ attribute) by name, location, date,
-    start_time, or end_time; the order of sorting is determined by the @order@
+    Events can be sorted (with the <code>by</code> attribute) by name, location, date,
+    start_time, or end_time; the order of sorting is determined by the <code>order</code>
     attribute (default sorting is in ascending order by event start time).
 
     *Usage:*
@@ -58,8 +56,8 @@ module EventsCalendarTags
   desc %{
     Renders the date for the current event.
 
-    An optional date format string, as used for @Date#strftime@, may be
-    specified with the @format@ attribute (the default @%Y-%m-%d@).
+    An optional date format string, as used for <code>Date#strftime</code>, may be
+    specified with the <code>format</code> attribute (the default <code>%Y-%m-%d</code>).
 
     *Usage:*
     <pre><code><r:event:date /></code></pre>
@@ -73,10 +71,10 @@ module EventsCalendarTags
   desc %{
     Renders the time for the current event.
 
-    An optional time format string, as used for @Date#strftime@, may be
-    specified with the @format@ attribute (the default is @%H:%M@).
+    An optional time format string, as used for <code>Date#strftime</code>, may be
+    specified with the <code>format</code> attribute (the default is <code>%H:%M</code>).
     
-    For events with both start and end time values, the @connector@ attribute
+    For events with both start and end time values, the <code>connector</code> attribute
     sets the text that separates the start and end time strings (the default
     is a single hyphen).
 
@@ -143,8 +141,8 @@ module EventsCalendarTags
   desc %{
     Renders the HTML-formatted description for the current event.
 
-    The returned HTML is sanitized for your protection using `HTML::WhiteListSanitizer#sanitize`.
-    If sanitization is not desired, specify `sanitize="false"`.
+    The returned HTML is sanitized for your protection using <code>HTML::WhiteListSanitizer#sanitize</code>.
+    If sanitization is not desired, specify <code>sanitize="false"</code>.
 
     *Usage:*
     <pre><code><r:event:description /></code></pre>
