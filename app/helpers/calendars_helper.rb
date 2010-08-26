@@ -7,28 +7,19 @@ module CalendarsHelper
 
     div_id = 'events-calendar'
 
-    # The JS script to run to construct the tooltips varies depending on whether the
-    # response is for HTML or RJS. When responding to HTML, the JS func has to be
-    # run after the DOM is loaded (at least on IE6 and IE7, but not IE8, Firefox, or
-    # Safari). But when responding to RJS, the JS func has to be invoked directly.
-    tooltip_func = 'makeToolTips'.freeze
-    tooltip_script = rjs ? "#{tooltip_func}();" : "document.observe('dom:loaded', #{tooltip_func});"
-
     calendar_options = {
       :year => this_month.year,
       :month => this_month.month,
       :previous_month_text => %Q{
-<div class="prevMonthName">
-  <a onclick="new Ajax.Request('#{calendar_path(:year => last_month.year, :month => last_month.month)}', { method: 'get' }); return false;"
-     href="#{calendar_path(:year => last_month.year, :month => last_month.month)}">
+<div class="prevMonthName changeMonth">
+  <a href="#{calendar_path(:year => last_month.year, :month => last_month.month)}">
     &lt;&nbsp;#{Date::ABBR_MONTHNAMES[last_month.month]}
   </a>
 </div>
       }.squish,
       :next_month_text => %Q{
-<div class="nextMonthName">
-  <a onclick="new Ajax.Request('#{calendar_path(:year => next_month.year, :month => next_month.month)}', { method: 'get' }); return false;"
-     href="#{calendar_path(:year => next_month.year, :month => next_month.month)}">
+<div class="nextMonthName changeMonth">
+  <a href="#{calendar_path(:year => next_month.year, :month => next_month.month)}">
     #{Date::ABBR_MONTHNAMES[next_month.month]}&nbsp;&gt;
   </a>
 </div>
@@ -53,7 +44,6 @@ module CalendarsHelper
       end.gsub(/(<\/?(table|thead|tbody|tfoot|tr|th|td)[^>]*?>)/, "\n"+'\1')
       block << "\n"
       block << events.join
-      block << %Q{<script type="text/javascript">#{tooltip_script}</script>\n}
       block << '</div>'
     end
   end

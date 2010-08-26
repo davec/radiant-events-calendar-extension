@@ -1,5 +1,5 @@
-if (typeof Prototype == 'undefined')
-  throw("events_calendar.js requires the prototype.js library");
+if (typeof Prototype == 'undefined' || typeof LowPro == 'undefined')
+  throw("events_calendar.js requires the prototype.js and lowpro.js libraries");
 
 var ToolTips = $H();
 var ActiveToolTip = null;
@@ -75,3 +75,16 @@ function makeToolTips() {
     }
   });
 }
+
+Event.onReady(function() {
+  makeToolTips();
+});
+
+Event.addBehavior({
+  '#events-calendar .changeMonth a:click': function() {
+    new Ajax.Request(this.href, { method: 'get',
+                                  onComplete: function() { makeToolTips(); Event.addBehavior.reload(); }
+                                });
+    return false;
+  }
+});
