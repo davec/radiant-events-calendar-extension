@@ -33,12 +33,13 @@ Now, run the migration and copy the public assets:
   rake radiant:extensions:events_calendar:migrate
 
 To use the calendar, you must include the provided JavaScript and CSS files in
-your layout. The included JavaScript relies on the Prototype library, so it must
-also be added if it is not already included. Add the following to your layout
-header:
+your layout. The included JavaScript relies on the Prototype and LowPro
+libraries, so they must also be loaded prior to loading the events_calendar.js
+file. Add the following to your layout header:
 
   <link rel="stylesheet" type="text/css" href="/stylesheets/events_calendar.css" />
   <script type="text/javascript" src="/javascripts/prototype.js"></script>
+  <script type="text/javascript" src="/javascripts/lowpro.js"></script>
   <script type="text/javascript" src="/javascripts/events_calendar.js"></script>
 
 Events can be created and manged from the Events tab in the admin UI. A
