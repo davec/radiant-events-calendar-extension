@@ -271,7 +271,7 @@ describe 'EventsCalendar' do
 
     it 'should return the event description' do
       tag = %Q{<r:events for='#{Date.today.year}-01-01'><r:each><r:event:description /></r:each></r:events>}
-      expected = "<p>New Year&#8217;s Party</p>"
+      expected = "<p>New Year's Party</p>"
 
       pages(:home).should render(tag).as(expected)
     end
@@ -279,7 +279,7 @@ describe 'EventsCalendar' do
     %w(true false).each do |sanitization|
       it %Q{should accept sanitize="#{sanitization}"} do
         tag = %Q{<r:events for='#{Date.today.year}-01-01'><r:each><r:event:description sanitize="#{sanitization}" /></r:each></r:events>}
-        expected = "<p>New Year&#8217;s Party</p>"
+        expected = "<p>New Year's Party</p>"
         
         pages(:home).should render(tag).as(expected)
       end
