@@ -1,0 +1,166 @@
+== v0.9
+
+* Version bump
+
+== v0.8
+
+* Version bump
+
+== v0.5
+
+* Add event copy functionality [David Cato]
+    
+  Create a new event based on an existing event. This is a quick-and-dirty
+  way of providing multi-day events; specify the details for the first day
+  and make copies for subsequent days, changing the date for each copy.
+
+* Clean up tests  [David Cato]
+
+* Fix calendar navigation when JavaScript is disabled  [David Cato]
+
+* Fix remove error. Closes #2  [David Cato]
+
+* Add relative time periods for event date spec  [David Cato]
+
+  The `for' attribute now accepts relative time periods of the format
+  /(next|previous) \d+ (day|month|week|year)s?/
+    
+  So the following can now be specified:
+    
+  <r:events for="next 2 weeks" /> or <r:events for="previous 1 month" />
+    
+  By default, today is included, but if the `inclusive' attribute is passed
+  the (string literal) value of anything other than "true" then today is
+  not included in the result.
+
+* Set start_time to match date [David Cato]
+
+  Two events used Date.today.year for the date but hard-coded year 2009
+  for the start_time.
+
+* Clean up JS code [David Cato]
+
+  Declare vars and don't initialize the last filter name to the default
+  filter since doing so prevents the filter help from being displayed
+  until the selected filter is changed.
+
+* Add auto-complete to category input field [David Cato]
+
+* Add syntax change warning and contributors list [David Cato]
+
+== v0.4
+
+* Add default scope [David Cato]
+
+  Set default order by start_time
+
+* Updated README; added category attribute for <r:events> [Jeremy Stephens]
+
+* Changed syntax for dates in <r:events> [Jeremy Stephens]
+
+  - The year/month/day attributes in <r:events> are gone, use `for` (see
+    documentation for <r:events>)
+  - Added special days: today, tomorrow, yesterday
+
+* Changed the behavior of the <r:events> tag for consistency [Jeremy Stephens]
+
+  - <r:events> now gets all events by default; this is consistent with
+    other radius tags (such as <r:children:each>)
+  - added several options for <r:events>, including: by, order, limit, and
+    offset
+
+* Added category to events [Jeremy Stephens]
+
+* Fix typo [David Cato]
+
+* Highlight today, even if it's a weekend day [David Cato]
+
+* Add docs and attribution [David Cato]
+
+* Improve tooltip size calculations [David Cato]
+
+  This change also constrains the tooltip to fit within the viewport
+
+* Set the default filter on new records [David Cato]
+
+== v0.3
+
+* Update README with config info [David Cato]
+
+* Add filters for the description [David Cato]
+
+* Remove project-specific snippets [David Cato]
+
+* Fix RE to ignore non-terminal periods [David Cato]
+
+== v0.2
+
+* Restrict allowed tags in event tooltip description [David Cato]
+
+* Use a shortened description in the calendar tooltip [David Cato]
+
+* Move event data generation into a partial [David Cato]
+
+* Adjust tooltip sizing [David Cato]
+
+* Various fixes to the tooltip loading for IE [David Cato]
+
+  For HTML responses, the makeToolTip func is not run until after the DOM
+  is loaded. Running it before the DOM has finished loading caused page
+  rendering difficulties in IE6 and IE7.
+    
+  Also tweaked the positioning of the calendar month label.
+
+* More workarounds for RedCloth quirks [David Cato]
+
+* Get mouseovers working in IE [David Cato]
+
+  The onmouseover/onmouseout event handlers cannot be added to an
+  element with Element.writeAttribute() in IE.
+
+* More newlines to work around RedCloth quirks [David Cato]
+
+* Add note about Radiant versions [David Cato]
+
+* Fix REs in specs [David Cato]
+
+  The specs were never updated after implementing the RedCloth bug hack
+  which caused the tests for calendar contents to fail because of the
+  added newlines.
+
+* Fix CSS for tooltip footer [David Cato]
+
+* Remove bottom border from calendar day names [David Cato]
+
+* Allow tooltips to break out of jail [David Cato]
+
+  If a calendar is placed in a div that has overflow:hidden, the tooltips
+  would be clipped. By creating a separate div at the end of the document
+  body to hold the current tooltip, the overflow property of the calendar
+  container does not affect the display of the tooltip.
+    
+  Tooltip position calculation was also adjusted so that the tooltip will
+  display within the current viewport (and switch sides if it extends off
+  the left side of the viewport) as long as the tooltip size does not
+  exceed the size of the viewport.
+
+* Work around for a RedCloth bug [David Cato]
+
+  If the calendar is included in a snippet or page that uses Textile
+  formatting, the single-line string of unbroken text caused RedCloth to
+  insert spurious p tags, resulting in invalid HTML. Inserting newlines
+  in various parts of the table seems to fix the problem.
+
+* Impose order on the events [David Cato]
+
+  Modify the for_date named_scope to order the events by start_time and
+  name.
+    
+  Additionally, modify Admin::EventsController#load_models to order the
+  events by date, start_time, and name and also to exclude past events
+  (if someone wants to rewrite history, they'll have to work at it) so
+  the index of events has a sensible order.
+
+== v0.1
+
+* Events Calendar for Radiant
