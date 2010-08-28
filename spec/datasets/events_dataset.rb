@@ -19,7 +19,7 @@ class EventsDataset < Dataset::Base
 
   helpers do
     def create_event(name, date, attributes = {})
-      create_model :event, name, attributes.update(:name => name, :date => date)
+      create_model :event, name, attributes.update(:name => name, :date => date, :filter_id => nil)
     end
   end
 
