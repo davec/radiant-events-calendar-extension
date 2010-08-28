@@ -1,6 +1,92 @@
+== v0.9.1
+
+* Force setting of page filter when creating event [David Cato]
+
+  Need to have a known page filter defined for events so that the
+  rendering is consistent, regardless of the page filter setting in the
+  containing project.
+
+* DRY up calendar display with lowpro behaviors [David Cato]
+
+* Remove unrecognized format attr from <r:description> [David Cato]
+
+* Add <r:event:time:start> and <r:event:time:end> tags [David Cato]
+
+* Fix inline code strings in tag description text [David Cato]
+
+* Add a custom Events page type [David Cato]
+
+  This replaces the events controller and associated show view and drops
+  the dependency on shared_layouts. Changes to the events page can now be
+  made easily without requiring a re-deploy.
+
+  Added additional tags (<r:event:if_time>, <r:event:if_location>,
+  <r:event:if_description>, <r:event:if_category>, and their unless
+  counterparts) and changed <r:event:description> to return the
+  HTML-formatted description instead of the raw description.
+
+* Add CHANGELOG [David Cato]
+
+* Adjust default event ordering [David Cato]
+
+* Fix typo [David Cato]
+
+* Move sync task to the proper level [David Cato]
+
+* Add missing load of words in sync task [David Cato]
+
+* Tags get i18n treatment [David Cato]
+
+* Update tag descriptions [David Cato]
+
+* Minor event form tweaks [David Cato]
+
+* Update filter reference display [David Cato]
+
+* Make auto-completion results visible [David Cato]
+
 == v0.9
 
-* Version bump
+* Add i18n (admin UI only)
+
+== v0.8.1
+
+* DRY up calendar display with lowpro behaviors [David Cato]
+
+* Remove unrecognized format attr from <r:description> [David Cato]
+
+* Add <r:event:time:start> and <r:event:time:end> tags [David Cato]
+
+* Fix inline code strings in tag description text [David Cato]
+
+* Add a custom Events page type [David Cato]
+
+  This replaces the events controller and associated show view and drops
+  the dependency on shared_layouts. Changes to the events page can now be
+  made easily without requiring a re-deploy.
+
+  Added additional tags (<r:event:if_time>, <r:event:if_location>,
+  <r:event:if_description>, <r:event:if_category>, and their unless
+  counterparts) and changed <r:event:description> to return the
+  HTML-formatted description instead of the raw description.
+
+* Add CHANGELOG [David Cato]
+
+* Adjust default event ordering [David Cato]
+
+* controls.js -> admin/controls.js [David Cato]
+
+* Convert build_select options param to String [David Cato]
+
+  Syntax change in Rails 2.3.8 [David Cato]
+
+* Update admin_reference_path call [David Cato]
+
+  The associated route changed in Radiant 0.9 [David Cato]
+
+* Update tabs for Radiant 0.9 [David Cato]
+
+* Move route defs to config/routes.rb [David Cato]
 
 == v0.8
 
