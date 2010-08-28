@@ -55,6 +55,18 @@ en:
       *Usage*:
 
       <pre><code><r:event:unless_time>...</r:event:unless_time></code></pre>"
+    event-time-start: "Renders the start time for the current event.
+      The default time format is <code>%H:%M</code> but can be changed by setting a different format with the <code>format</code> attribute.
+
+      *Usage:*
+      <pre><code><r:event:time:start /></code></pre>
+      <pre><code><r:event:time:start format='%I:%M %p' /></code></pre>"
+    event-time-end: "Renders the end time for the current event.
+      The default time format is <code>%H:%M</code> but can be changed by setting a different format with the <code>format</code> attribute.
+
+      *Usage:*
+      <pre><code><r:event:time:end /></code></pre>
+      <pre><code><r:event:time:end format='%I:%M %p' /></code></pre>"
     event-location: "Renders the location for the current event."
     event-if_location: "Render inner content if the current event has a location.
 

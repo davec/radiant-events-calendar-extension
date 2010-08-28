@@ -220,6 +220,42 @@ describe 'EventsCalendar' do
 
   end
 
+  describe '<r:events:each:event:time:start>' do
+
+    it 'should return the event start time in the default format' do
+      tag = %Q{<r:events for='#{Date.today.year}-01-15'><r:each><r:event:time:start /></r:each></r:events>}
+      expected = "08:00"
+
+      pages(:home).should render(tag).as(expected)
+    end
+
+    it 'should return the event start time in the given format' do
+      tag = %Q{<r:events for='#{Date.today.year}-01-15'><r:each><r:event:time:start format='%I:%M %p' /></r:each></r:events>}
+      expected = "08:00 AM"
+
+      pages(:home).should render(tag).as(expected)
+    end
+
+  end
+
+  describe '<r:events:each:event:time:end>' do
+
+    it 'should return the event end time in the default format' do
+      tag = %Q{<r:events for='#{Date.today.year}-01-15'><r:each><r:event:time:end /></r:each></r:events>}
+      expected = "17:00"
+
+      pages(:home).should render(tag).as(expected)
+    end
+
+    it 'should return the event end time in the given format' do
+      tag = %Q{<r:events for='#{Date.today.year}-01-15'><r:each><r:event:time:end format='%I:%M %p' /></r:each></r:events>}
+      expected = "05:00 PM"
+
+      pages(:home).should render(tag).as(expected)
+    end
+
+  end
+
   describe '<r:events:each:event:location>' do
 
     it 'should return the event location' do
