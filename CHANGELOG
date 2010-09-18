@@ -1,3 +1,13 @@
+== v0.9.2
+
+* Update event form to work with textile toolbar [David Cato]
+
+* temporary hack to allow for textile toolbar [Jim Gay]
+
+* Fix for IE [David Cato]
+
+* Make the public-facing calendar work with jQuery [David Cato]
+
 == v0.9.1
 
 * Force setting of page filter when creating event [David Cato]
@@ -48,6 +58,16 @@
 == v0.9
 
 * Add i18n (admin UI only)
+
+== v0.8.2
+
+* Update event form to work with textile toolbar [David Cato]
+
+* temporary hack to allow for textile toolbar [Jim Gay]
+
+* Fix for IE [David Cato]
+
+* Make the public-facing calendar work with jQuery [David Cato]
 
 == v0.8.1
 
