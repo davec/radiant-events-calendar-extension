@@ -44,7 +44,8 @@ module CalendarsHelper
       end.gsub(/(<\/?(table|thead|tbody|tfoot|tr|th|td)[^>]*?>)/, "\n"+'\1')
       block << "\n"
       block << events.join
-      block << '</div>'
+      # NOTE: IE does not always see the closing div tag unless it's terminated with a newline
+      block << "</div>"
     end
   end
 
