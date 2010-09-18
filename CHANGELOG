@@ -1,3 +1,13 @@
+== v0.8.2
+
+* Update event form to work with textile toolbar [David Cato]
+
+* temporary hack to allow for textile toolbar [Jim Gay]
+
+* Fix for IE [David Cato]
+
+* Make the public-facing calendar work with jQuery [David Cato]
+
 == v0.8.1
 
 * DRY up calendar display with lowpro behaviors [David Cato]
