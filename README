@@ -41,6 +41,10 @@ file. Add the following to your layout header:
   <script type="text/javascript" src="/javascripts/lowpro.js"></script>
   <script type="text/javascript" src="/javascripts/events_calendar.js"></script>
 
+An alternate version of the JavaScript file, named events_calendar_jquery.js,
+is provided for use with jQuery (the minimum jQuery version is 1.4.2 and is
+not included).
+
 Events can be created and manged from the Events tab in the admin UI. A
 calendar and listings of events can be displayed in your templates using the
 supplied Radius tags.
