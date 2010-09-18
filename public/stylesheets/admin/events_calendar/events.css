@@ -32,11 +32,11 @@
 #content #event_form_area #event_name.textbox,
 #content #event_form_area #event_category.textbox,
 #content #event_form_area #event_location.textbox,
-#content #event_form_area #event_description.textbox {
+#content #event_form_area #event_description_content.textbox {
   font-size: 125%;
   width: 100%;
 }
-#content #event_form_area #event_description.textbox {
+#content #event_form_area #event_description_content.textbox {
   height: 10em;
 }
 
@@ -80,6 +80,14 @@
 
 #content #event_form_area div.auto_complete {
   z-index: 100;
+}
+
+#content #event_form_area p.filter {
+  margin: 0.5em 0;
+}
+#content #event_form_area p.filter label {
+  font-size: 85%;
+  font-weight: normal;
 }
 
 #content #events.index tr.inactive td.event a,

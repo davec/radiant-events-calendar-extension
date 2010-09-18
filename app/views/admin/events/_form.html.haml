@@ -58,15 +58,15 @@
             %label{:for => 'event_timezone'} Timezone
             = f.time_zone_select :timezone
       %p.title
-        %label{:for => 'event_description'} Description
-        ~ f.text_area 'description', :class => 'textbox', :size => '60x10'
-      %p.title
-        %label{:for => 'event_filter_id'} Filter
-        = select_tag 'event[filter_id]', filter_options_for_select(default_filter_name), :id => 'event_filter_id'
-        %span#reference-links
-          Reference:
-          %span{:id => 'filter-reference-link-event'}
-            = link_to_function "Filter", "show_filter_reference();"
+        %label{:for => 'event_description_content'} Description
+        %p.filter
+          %label{:for => 'event_description_filter_id'} Filter
+          = select_tag 'event[filter_id]', filter_options_for_select(default_filter_name), :id => 'event_description_filter_id'
+          %span#reference-links
+            Reference:
+            %span{:id => 'filter-reference-link-event'}
+              = link_to_function "Filter", "show_filter_reference();"
+        ~ f.text_area 'description', :class => 'textbox', :size => '60x10', :id => 'event_description_content'
   %span.clear &nbsp;
   = javascript_tag "$('event_name').activate()"
   %p.buttons
