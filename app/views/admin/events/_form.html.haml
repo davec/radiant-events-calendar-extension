@@ -4,7 +4,7 @@
   :plain
     var last_events_calendar_filter = "";
     function show_filter_reference() {
-      var filter_type = $F('event_filter_id');
+      var filter_type = $F('event_description_filter_id');
       var popup = $('filter-reference-popup');
       if (last_events_calendar_filter != filter_type) {
         var url = "#{admin_reference_path(:id => 'filters')}";
