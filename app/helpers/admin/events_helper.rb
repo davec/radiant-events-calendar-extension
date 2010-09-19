@@ -4,7 +4,7 @@ module Admin::EventsHelper
       var lastFilter = '#{@event.filter_id}';
       var filterWindows = {};
       function loadFilterReference() {
-        var filter = $F('event_filter_id');
+        var filter = $F('event_description_filter_id');
         if (filter != "") {
           if (!filterWindows[filter]) filterWindows[filter] = new Popup.AjaxWindow("#{admin_reference_path('filters')}?filter_name="+encodeURIComponent(filter), {reload: false});
           var window = filterWindows[filter];
