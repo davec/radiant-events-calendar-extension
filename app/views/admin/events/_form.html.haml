@@ -58,7 +58,8 @@
     = save_model_and_continue_editing_button(@event)
     = t('or')
     = link_to(t('cancel'), admin_events_url)
-#popups
+
+- content_for :popups do
   #filter-reference-popup.popup{ :style => "display:none;" }
     %h3
       %span#filter-type= default_filter_name
@@ -66,3 +67,7 @@
     #filter-reference= filter_reference
     %p
       = link_to t('close'), "#", :class => 'close'
+
+- if defined?(TextileEditorExtension)
+  = render 'admin/pages/link_popup'
+  = render 'admin/pages/image_popup'
