@@ -6,7 +6,7 @@ class CalendarsController < ApplicationController
   def show
     respond_to do |format|
       format.js {
-        if calendar = make_calendar(Date.civil(params[:year].to_i, params[:month].to_i), true) rescue nil
+        if calendar = make_calendar(Date.civil(params[:year].to_i, params[:month].to_i)) rescue nil
           response.headers['Content-Type'] = 'text/html'
           render :text => calendar and return
         end
