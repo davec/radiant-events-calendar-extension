@@ -1,7 +1,7 @@
 module CalendarsHelper
   include CalendarHelper
 
-  def make_calendar(this_month, rjs = false)
+  def make_calendar(this_month)
     next_month = this_month + 1.month
     last_month = this_month - 1.month
 
