@@ -45,6 +45,14 @@ describe 'EventsCalendar' do
       pages(:home).should render(tag).with_error('the calendar tag requires a month and year to be specified')
     end
 
+    it 'should not render an empty table row' do
+      # Empty table rows were being generated for months that end on
+      # the last day of the week, e.g., July 2010.
+      tag = %{<r:calendar year='2010' month='7' />}
+
+      pages(:home).should render(tag).not_matching(%r{<tr>\s*</tr>}i)
+    end
+
   end
 
   describe '<r:events>' do

@@ -40,8 +40,11 @@ module CalendarsHelper
 
           [ %Q{<a href="/events/#{this_month.year}/#{this_month.month}/#{d.mday}">#{d.mday}</a>}, { :class => 'eventDay', :id => "day-#{d.jd}" } ]
         end
+      end.
+        # HACK out empty table rows (generated when the month ends on the last day of the week)
+        gsub(%r{<tr>\s*</tr>}, '').
         # HACK around a bug in RedCloth that inserts spurious p tags (the extra newlines seem to avoid the problem)
-      end.gsub(/(<\/?(table|thead|tbody|tfoot|tr|th|td)[^>]*?>)/, "\n"+'\1')
+        gsub(/(<\/?(table|thead|tbody|tfoot|tr|th|td)[^>]*?>)/, "\n"+'\1')
       block << "\n"
       block << events.join
       block << '</div>'
