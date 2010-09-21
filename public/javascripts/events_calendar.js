@@ -76,7 +76,16 @@ function makeToolTips() {
   });
 }
 
+// Add padding to the calendar to prevent accordion-like effects resulting
+// from different sized calendar months as the user navigates through the year.
+function padCalendar() {
+  var tbody = $$('#events-calendar table tbody').first();
+  var weeks = tbody.childElements();
+  $('events-calendar').setStyle({ paddingBottom: (6-weeks.length)*weeks.last().getHeight()+'px' });
+}
+
 Event.onReady(function() {
+  padCalendar();
   makeToolTips();
 });
 
@@ -85,7 +94,8 @@ Event.addBehavior({
     new Ajax.Request(this.href, { method: 'get',
                                   evalJS: false,
                                   onSuccess: function(response) {
-                                    $('events-calendar').replace(response.responseText),
+                                    $('events-calendar').replace(response.responseText);
+                                    padCalendar();
                                     makeToolTips();
                                     Event.addBehavior.reload();
                                   }
