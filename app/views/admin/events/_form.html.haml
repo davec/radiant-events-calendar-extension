@@ -1,4 +1,5 @@
 - include_javascript 'controls'
+- include_javascript 'lowpro'
 - default_filter_name = "#{@event.filter_id}"
 - content_for :page_scripts do
   :plain
@@ -17,6 +18,17 @@
       }
       return false;
     }
+    function check_time_range() {
+      var start_time = $F('event_start_time_5i');
+      var end_time = $F('event_end_time_5i');
+      if (!end_time.empty() && !start_time.empty() && end_time < start_time) {
+        $('next_day_warning').show();
+      } else {
+        $('next_day_warning').hide();
+      }
+    }
+    Event.onReady(function() { check_time_range(); });
+    Event.addBehavior({ 'div.time select:change': check_time_range });
 
 - form_for [:admin, @event] do |f|
   .form-area
@@ -53,6 +65,7 @@
               %br
               %span.note (optional)
             = f.time_select :end_time, { :default => @event.end_time ? @event.end_time : nil, :time_separator => '', :minute_interval => 15, :include_blank => true, :simple_time_select => true }
+            %span#next_day_warning.warning{:style => 'display:none'} Ends next day
         .timezone
           %p.title
             %label{:for => 'event_timezone'} Timezone
