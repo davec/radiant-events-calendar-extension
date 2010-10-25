@@ -39,7 +39,7 @@ class Admin::EventsController < Admin::ResourceController
 
       date = Date.parse(params[:event][:date])
       params[:event][:start_time] = start_time.blank? ? start_time : start_time.change(:year => date.year, :month => date.month, :day => date.day)
-      params[:event][:end_time] = end_time.blank? ? end_time : end_time.change(:year => date.year, :month => date.month, :day => date.day + (start_time < end_time ? 0 : 1))
+      params[:event][:end_time] = end_time.blank? ? end_time : end_time.change(:year => date.year, :month => date.month, :day => date.day).advance(:days => start_time < end_time ? 0 : 1)
     end
 
   private
