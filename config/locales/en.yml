@@ -35,6 +35,8 @@ en:
         timezone: 'Timezone'
         description: 'Description'
         filter: 'Filter'
+      message:
+        next_day: 'Ends next day'
     index:
       title: 'Events'
       instructions: 'Click on an event name below to edit it, or click <code>Remove</code> to delete it.'
