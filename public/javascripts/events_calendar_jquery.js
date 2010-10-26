@@ -78,7 +78,7 @@ $(function() {
       $('#events-calendar').empty().append($(data).children());
       padCalendar();
       makeToolTips();
-    });
+    }, 'script');
     return false;
   });
 });
