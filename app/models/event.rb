@@ -137,7 +137,9 @@ class Event < ActiveRecord::Base
         when :start_element
           tags.push p_e[0]
           results << "<#{tags.last}"
-          results << " #{attrs}" unless (attrs = attrs_to_s(p_e[1])).blank?
+          unless (attrs = attrs_to_s(p_e[1])).blank?
+            results << " #{attrs}"
+          end
           results << ">"
         when :end_element
           results << "</#{tags.pop}>"
