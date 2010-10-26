@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../../spec_helper'
 
 describe Admin::EventsController do
-  dataset :users
+  dataset :users, :events
 
   before(:each) do
     login_as :admin
@@ -23,8 +23,29 @@ describe Admin::EventsController do
   describe "create" do
     integrate_views
 
-    it "should be successful" do
-      event_name = "Event 1"
+    it "should be successful with only a name" do
+      event_name = "Event with no time"
+      post :create, :event => default_attributes.merge({
+        :name => event_name,
+      })
+      response.should redirect_to(admin_events_url)
+      event = Event.find_by_name(event_name)
+      event.should_not be_nil
+    end
+
+    it "should be successful with only a start time" do
+      event_name = "Event with only start time"
+      post :create, :event => default_attributes.merge({
+        :name => event_name,
+        :'start_time(5i)' => "09:00:00",
+      })
+      response.should redirect_to(admin_events_url)
+      event = Event.find_by_name(event_name)
+      event.should_not be_nil
+    end
+
+    it "should be successful with a start and end time" do
+      event_name = "Event with start and end time"
       post :create, :event => default_attributes.merge({
         :name             => event_name,
         :'start_time(5i)' => "09:00:00",
@@ -67,6 +88,29 @@ describe Admin::EventsController do
       })
       response.should render_template("new")
       response.body.should have_text(Regexp.new(I18n.t("activerecord.errors.models.event.attributes.start_time.blank")))
+    end
+  end
+
+  describe "copy" do
+    it "should copy and render the new view" do
+      get :copy, :id => Event.first.id
+      response.should render_template("new")
+      orig, copy = Event.first, assigns[:event]
+      copy.new_record?.should be_true
+      [ copy.name, copy.location, copy.date].should == [ orig.name, orig.location, orig.date ]
+    end
+
+    it "should fails and render the index view" do
+      get :copy, :id => "foo"
+      response.should redirect_to(admin_events_url)
+    end
+  end
+
+  describe "auto_complete_for_event_category" do
+    it "should return a list of categories" do
+      xhr :get, :auto_complete_for_event_category, :event => { :category => "hol" }
+      response.should be_success
+      response.should have_text("<ul><li>Holidays</li></ul>")
     end
   end
 end

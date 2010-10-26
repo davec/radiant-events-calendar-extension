@@ -38,12 +38,17 @@ class Admin::EventsController < Admin::ResourceController
       end_time = parse_time(params[:event].delete('end_time(5i)'))
 
       date = Date.parse(params[:event][:date])
-      params[:event][:start_time] = start_time.is_a?(Time) ?
-        start_time.change(:year => date.year, :month => date.month, :day => date.day) :
-        start_time
-      params[:event][:end_time] = end_time.is_a?(Time) ?
-        end_time.change(:year => date.year, :month => date.month, :day => date.day).advance(:days => start_time.is_a?(Time) && end_time < start_time ? 1 : 0) :
-        end_time
+      params[:event][:start_time] = if start_time.is_a?(Time)
+                                      start_time.change(:year => date.year, :month => date.month, :day => date.day)
+                                    else
+                                      start_time
+                                    end
+      params[:event][:end_time] = if end_time.is_a?(Time)
+                                    end_time.change(:year => date.year, :month => date.month, :day => date.day).
+                                      advance(:days => start_time.is_a?(Time) && end_time < start_time ? 1 : 0)
+                                  else
+                                    end_time
+                                  end
     end
 
   private
