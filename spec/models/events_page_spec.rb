@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe EventsPage do
-  dataset :events
+  dataset :events, :file_not_found
   test_helper :render
 
   before :each do
@@ -27,4 +27,11 @@ describe EventsPage do
     pages(:home).find_by_url(@request.request_uri).render.should == "New Year's Day"
   end
 
+  it "should return a 404 for a nonsense event date" do
+    pages(:home).find_by_url("/events/foo/bar/baz").should == pages(:file_not_found)
+  end
+
+  it "should return a 404 for an invalid event date" do
+    pages(:home).find_by_url("/events/2000/2/30").should == pages(:file_not_found)
+  end
 end

@@ -140,6 +140,13 @@ describe 'EventsCalendar' do
       pages(:home).should render(tag).as(expected)
     end
 
+    %w(limit offset).each do |attr|
+      it "should require a positive integer value for #{attr}" do
+        tag = %Q{<r:events #{attr}="foo"><r:each><r:event:name/></r:each></r:events>}
+        pages(:home).should render(tag).with_error("the `#{attr}' attribute of the `each' tag must be a positive number between 1 and 4 digits")
+      end
+    end
+
     it 'should restrict events by category' do
       tag = %{<r:events category="Holidays"><r:each><r:event:name/></r:each></r:events>}
       expected = "Independence Day"
@@ -301,6 +308,88 @@ describe 'EventsCalendar' do
       pages(:home).should render(tag).as(expected)
     end
 
+  end
+
+  describe 'conditionals' do
+    before(:each) do
+      Event.delete_all
+      create_event("Event with time",        Date.today, :start_time  => Time.now.at_beginning_of_day + 12.hours)
+      create_event("Event with location",    Date.today, :location    => "Random Location")
+      create_event("Event with category",    Date.today, :category    => "Random Category")
+      create_event("Event with description", Date.today, :description => "Random Description")
+    end
+
+    describe '<r:events:each:event:if_time>' do
+      it 'should return the time' do
+        tag = %Q{<r:events for='#{Date.today.to_s}'><r:each><r:event:if_time><r:time/></r:event:if_time></r:each></r:events>}
+        expected = "12:00"
+
+        pages(:home).should render(tag).as(expected)
+      end
+    end
+
+    describe '<r:events:each:event:unless_time>' do
+      it 'should return the non-time value' do
+        tag = %Q{<r:events for='#{Date.today.to_s}'><r:each><r:event:unless_time>(No time)</r:event:unless_time></r:each></r:events>}
+        expected = "(No time)" * 3
+
+        pages(:home).should render(tag).as(expected)
+      end
+    end
+
+    describe '<r:events:each:event:if_category>' do
+      it 'should return the category' do
+        tag = %Q{<r:events for='#{Date.today.to_s}'><r:each><r:event:if_category><r:category/></r:event:if_category></r:each></r:events>}
+        expected = "Random Category"
+
+        pages(:home).should render(tag).as(expected)
+      end
+    end
+
+    describe '<r:events:each:event:unless_category>' do
+      it 'should return the non-category value' do
+        tag = %Q{<r:events for='#{Date.today.to_s}'><r:each><r:event:unless_category>(No category)</r:event:unless_category></r:each></r:events>}
+        expected = "(No category)" * 3
+
+        pages(:home).should render(tag).as(expected)
+      end
+    end
+
+    describe '<r:events:each:event:if_location>' do
+      it 'should return the location' do
+        tag = %Q{<r:events for='#{Date.today.to_s}'><r:each><r:event:if_location><r:location/></r:event:if_location></r:each></r:events>}
+        expected = "Random Location"
+
+        pages(:home).should render(tag).as(expected)
+      end
+    end
+
+    describe '<r:events:each:event:unless_location>' do
+      it 'should return the non-location value' do
+        tag = %Q{<r:events for='#{Date.today.to_s}'><r:each><r:event:unless_location>(No location)</r:event:unless_location></r:each></r:events>}
+        expected = "(No location)" * 3
+
+        pages(:home).should render(tag).as(expected)
+      end
+    end
+
+    describe '<r:events:each:event:if_description>' do
+      it 'should return the description' do
+        tag = %Q{<r:events for='#{Date.today.to_s}'><r:each><r:event:if_description><r:description/></r:event:if_description></r:each></r:events>}
+        expected = "<p>Random Description</p>"
+
+        pages(:home).should render(tag).as(expected)
+      end
+    end
+
+    describe '<r:events:each:event:unless_description>' do
+      it 'should return the non-description value' do
+        tag = %Q{<r:events for='#{Date.today.to_s}'><r:each><r:event:unless_description>(No description)</r:event:unless_description></r:each></r:events>}
+        expected = "(No description)" * 3
+
+        pages(:home).should render(tag).as(expected)
+      end
+    end
   end
 
   context 'relative date periods' do
