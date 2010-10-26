@@ -1,3 +1,34 @@
+== v0.9.3
+
+* Improved test coverage [David Cato]
+
+* Assign attrs before use in truncate_html [David Cato]
+
+* Re-order response targets [David Cato]
+
+  Check for html before js
+
+* Warn when end_time < start_time [David Cato]
+
+* Add more admin controller tests [David Cato]
+
+* Fix end time adjustment for events on last day of month [David Cato]
+
+* Allow events to end after midnight [David Cato]
+
+  If end_time < start_time, advance end_time by 1 day
+
+* Add padding to calendar to avoid accordion effects [David Cato]
+
+* Remove empty table rows from the generated calendar [David Cato]
+
+* Remove unused rjs param in make_calendar [David Cato]
+
+* Revert "Fix for IE" [David Cato]
+
+  Doesn't seem to actually be needed; problem was apparently elsewhere.
+  Besides, the intended fix was accidently left out.
+
 == v0.9.2
 
 * Update event form to work with textile toolbar [David Cato]
@@ -58,6 +89,37 @@
 == v0.9
 
 * Add i18n (admin UI only)
+
+== v0.8.3
+
+* Improved test coverage [David Cato]
+
+* Assign attrs before use in truncate_html [David Cato]
+
+* Re-order response targets [David Cato]
+
+  Check for html before js
+
+* Warn when end_time < start_time [David Cato]
+
+* Add more admin controller tests [David Cato]
+
+* Fix end time adjustment for events on last day of month [David Cato]
+
+* Allow events to end after midnight [David Cato]
+
+  If end_time < start_time, advance end_time by 1 day
+
+* Add padding to calendar to avoid accordion effects [David Cato]
+
+* Remove empty table rows from the generated calendar [David Cato]
+
+* Remove unused rjs param in make_calendar [David Cato]
+
+* Revert "Fix for IE" [David Cato]
+
+  Doesn't seem to actually be needed; problem was apparently elsewhere.
+  Besides, the intended fix was accidently left out.
 
 == v0.8.2
 
