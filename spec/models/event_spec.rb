@@ -140,8 +140,8 @@ describe Event do
     end
 
     it 'should be aware of HTML markup when truncating the description' do
-      @event.description = '<strong>Lorem ipsum <i>dolor sit</i> amet</strong>, consectetuer adipiscing elit.'
-      @event.short_description(:truncate => 20).should == '<strong>Lorem ipsum <i>dolor</i></strong>...'
+      @event.description = '<strong><em class="foo">Lorem ipsum</em> <i>dolor sit</i> amet</strong>, consectetuer adipiscing elit.'
+      @event.short_description(:truncate => 20).should == '<strong><em class="foo">Lorem ipsum</em> <i>dolor</i></strong>...'
     end
 
     it 'should be multi-byte aware when truncating the description' do
